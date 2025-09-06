@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portafolio (Supabase Storage)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <!-- Supabase JS v2 -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="dot"></span> Portafolio</div>
+    <nav class="nav">
+      <a class="active" href="#semanas">Semanas</a>
+      <a href="#acerca">Acerca</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <div class="auth">
+      <span id="user-email" class="user-email"></span>
+      <button id="btn-login" class="btn">Iniciar sesión</button>
+      <button id="btn-logout" class="btn btn-outline" style="display:none;">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <h1>Portafolio de <span class="grad">Base de Datos</span></h1>
+      <p>Login + almacenamiento por semanas con Supabase. 100% estático (GitHub Pages).</p>
+      <a class="btn" href="#semanas">Empezar</a>
+    </div>
+    <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
+  </section>
+
+  <main class="container">
+    <!-- Semanas (cuadraditos) -->
+    <section id="semanas">
+      <div class="head-row">
+        <h2 class="section-title">Semanas</h2>
+        <div class="row">
+          <button id="btn-add-week" class="btn" style="display:none;">➕ Nueva semana</button>
+        </div>
+      </div>
+      <div id="weeks-grid" class="weeks-grid"></div>
+    </section>
+
+    <!-- Panel de archivos -->
+    <section id="panel" class="panel">
+      <div class="panel-head">
+        <h3 id="panel-title">Selecciona una semana</h3>
+        <label class="uploader" id="uploader" style="display:none;">
+          <input type="file" id="file-input" />
+          <span>⬆️ Subir archivo</span>
+        </label>
+      </div>
+      <div id="items-grid" class="grid"></div>
+    </section>
+
+    <section id="acerca" class="info">
+      <h3>Acerca</h3>
+      <p class="muted">Este sitio usa Supabase Auth & Storage. Las semanas son carpetas dentro del bucket <code>portafolio</code>.</p>
+    </section>
+
+    <section id="contacto" class="info">
+      <h3>Contacto</h3>
+      <p class="muted">Tu nombre · tu@correo.com</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <small>© <span id="year"></span> · Hecho con ❤️</small>
+  </footer>
+
+  <!-- Modal Auth -->
+  <dialog id="auth-modal">
+    <form method="dialog" class="auth-form" id="auth-form">
+      <h3>Iniciar sesión</h3>
+      <label>Correo <input type="email" id="auth-email" required placeholder="tu@correo.com" /></label>
+      <label>Contraseña <input type="password" id="auth-pass" required placeholder="********" /></label>
+      <div class="row">
+        <button id="btn-email-login" class="btn" value="close">Entrar</button>
+        <button id="btn-email-signup" class="btn btn-outline" type="button" value="close">Crear cuenta</button>
+      </div>
+      <button class="btn btn-outline" value="cancel">Cancelar</button>
+      <p class="hint">Usa cualquier correo. La contraseña que pediste: <b>pokemon12</b>.</p>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
