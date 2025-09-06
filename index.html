@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portafolio – Firebase</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Mi Portafolio</div>
+    <nav class="nav">
+      <a class="active">Portafolio</a>
+    </nav>
+    <div class="auth">
+      <span id="user-email" class="user-email"></span>
+      <button id="btn-login" class="btn">Iniciar sesión</button>
+      <button id="btn-logout" class="btn btn-outline" style="display:none;">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <h2 class="section-title">Semanas</h2>
+
+    <div class="actions">
+      <button id="btn-add-week" class="btn" style="display:none;">➕ Agregar semana</button>
+      <label class="uploader" style="display:none;">
+        <input type="file" id="file-input" />
+        <span>⬆️ Subir archivo</span>
+      </label>
+      <select id="week-select" class="select"></select>
+    </div>
+
+    <section id="grid" class="grid"></section>
+  </main>
+
+  <footer class="footer">
+    <small>© 2025</small>
+  </footer>
+
+  <dialog id="auth-modal">
+    <form method="dialog" class="auth-form" id="auth-form">
+      <h3>Iniciar sesión</h3>
+      <label>Correo
+        <input type="email" id="auth-email" placeholder="tu@correo.com" required />
+      </label>
+      <label>Contraseña
+        <input type="password" id="auth-pass" placeholder="********" required />
+      </label>
+      <div class="row">
+        <button id="btn-email-login" class="btn" value="close">Entrar</button>
+        <button id="btn-email-signup" class="btn btn-outline" value="close" type="button">Crear cuenta</button>
+      </div>
+      <div class="or"><span>o</span></div>
+      <button id="btn-google" class="btn btn-google" type="button">Continuar con Google</button>
+      <button class="btn btn-outline" value="cancel">Cancelar</button>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
