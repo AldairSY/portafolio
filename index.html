@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mi Portafolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Firebase (compat para simplificar en GitHub Pages) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+</head>
+<body>
+  <!-- Barra superior -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo-dot"></span>
+      <span>Portafolio</span>
+    </div>
+
+    <nav class="nav">
+      <a class="nav-link active" href="#">Semanas</a>
+      <a class="nav-link" href="#acerca">Acerca</a>
+      <a class="nav-link" href="#contacto">Contacto</a>
+    </nav>
+
+    <div class="auth">
+      <span id="user-email" class="user-email"></span>
+      <button id="btn-login" class="btn">Iniciar sesión</button>
+      <button id="btn-logout" class="btn btn-outline" style="display:none;">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <h1>Mi Portafolio de <span class="gradient">Base de Datos</span></h1>
+      <p>Sube PDFs, imágenes y evidencias por semana. Compártelo con tu docente o equipo.</p>
+      <div class="hero-actions">
+        <a href="#grid" class="btn">Ver semanas</a>
+        <a href="#guia" class="btn btn-outline">Guía rápida</a>
+      </div>
+    </div>
+    <div class="hero-blobs">
+      <span class="blob b1"></span>
+      <span class="blob b2"></span>
+      <span class="blob b3"></span>
+    </div>
+  </section>
+
+  <!-- Acciones -->
+  <main class="container">
+    <section id="panel" class="panel">
+      <div class="panel-left">
+        <h2 class="section-title">Semanas</h2>
+        <p class="muted">Selecciona la semana, agrega una nueva y sube archivos.</p>
+      </div>
+
+      <div class="panel-right">
+        <select id="week-select" class="select"></select>
+        <button id="btn-add-week" class="btn hide-when-loggedout" style="display:none;">➕ Nueva semana</button>
+
+        <label class="uploader hide-when-loggedout" style="display:none;">
+          <input type="file" id="file-input" />
+          <span>⬆️ Subir archivo</span>
+        </label>
+      </div>
+    </section>
+
+    <!-- GRID -->
+    <section id="grid" class="grid"></section>
+
+    <!-- Guía -->
+    <section id="guia" class="guide">
+      <h3>¿Cómo funciona?</h3>
+      <ol>
+        <li>Inicia sesión con <strong>Google</strong> o crea cuenta con correo y contraseña.</li>
+        <li>Haz clic en <strong>Nueva semana</strong> (ej. “Semana 1”).</li>
+        <li>Selecciona la semana y <strong>sube tus archivos</strong> (PDF, PNG, JPG).</li>
+        <li>Usa los botones <em>Ver archivo</em> y <em>Descargar</em> para compartir.</li>
+      </ol>
+    </section>
+
+    <!-- Acerca y contacto -->
+    <section id="acerca" class="info">
+      <h3>Acerca</h3>
+      <p class="muted">Portafolio estático en GitHub Pages con autenticación y almacenamiento en Firebase.</p>
+    </section>
+
+    <section id="contacto" class="info">
+      <h3>Contacto</h3>
+      <p class="muted">Tu nombre · tu@correo.com</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <small>© <span id="year"></span> · Hecho con ❤️ por mí</small>
+  </footer>
+
+  <!-- Modal de Autenticación -->
+  <dialog id="auth-modal" class="auth-modal">
+    <form method="dialog" class="auth-form" id="auth-form">
+      <h3>Iniciar sesión</h3>
+
+      <label>Correo
+        <input type="email" id="auth-email" placeholder="tu@correo.com" required />
+      </label>
+
+      <label>Contraseña
+        <input type="password" id="auth-pass" placeholder="********" required />
+      </label>
+
+      <div class="row">
+        <button id="btn-email-login" class="btn" value="close">Entrar</button>
+        <button id="btn-email-signup" class="btn btn-outline" type="button" value="close">Crear cuenta</button>
+      </div>
+
+      <div class="or"><span>o</span></div>
+
+      <button id="btn-google" class="btn btn-google" type="button">Continuar con Google</button>
+      <button class="btn btn-outline" value="cancel">Cancelar</button>
+
+      <p class="hint">Tip: si usas Google en GitHub Pages, agrega tu dominio (tuusuario.github.io) en <em>Authentication → Settings → Authorized domains</em>.</p>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
