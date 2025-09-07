@@ -12,19 +12,21 @@
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand"><span class="dot"></span> Portafolio</div>
-    <nav class="nav">
-      <a class="active" href="#semanas">Semanas</a>
-      <a href="#acerca">Acerca</a>
-      <a href="#contacto">Contacto</a>
-    </nav>
-    <div class="auth">
-      <span id="user-email" class="user-email"></span>
-      <button id="btn-login" class="btn">Iniciar sesión</button>
-      <button id="btn-logout" class="btn btn-outline" style="display:none;">Cerrar sesión</button>
-    </div>
-  </header>
+ <header class="topbar">
+  <div class="brand"><span class="dot"></span> Portafolio</div>
+  <nav class="nav">
+    <a class="active" href="#semanas">Semanas</a>
+    <a href="#acerca">Acerca</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+  <div class="auth">
+    <button id="btn-change-mode" class="btn btn-outline">Cambiar modo</button>
+    <span id="user-email" class="user-email"></span>
+    <button id="btn-login" class="btn">Iniciar sesión</button>
+    <button id="btn-logout" class="btn btn-outline" style="display:none;">Cerrar sesión</button>
+  </div>
+</header>
+
 
   <section class="hero">
     <div class="hero-inner">
@@ -73,25 +75,35 @@
   <footer class="footer">
     <small>© <span id="year"></span> · Hecho con ❤️:v </small>
   </footer>
+<!-- Modal Auth -->
+<dialog id="auth-modal">
+  <form method="dialog" class="auth-form" id="auth-form">
+    <h3>Iniciar sesión</h3>
+    <label>Correo <input type="email" id="auth-email" required placeholder="tu@correo.com" /></label>
+    <label>Contraseña <input type="password" id="auth-pass" required placeholder="********" /></label>
+    <div class="row">
+      <button id="btn-email-login" class="btn" value="close">Entrar</button>
+      <button id="btn-email-signup" class="btn btn-outline" type="button" value="close">Crear cuenta</button>
+    </div>
+    <button class="btn btn-outline" value="cancel">Cancelar</button>
+    <p class="hint">Usa cualquier correo. La contraseña que pediste: <b>solo usuario premium</b>.</p>
+  </form>
+</dialog>
 
-  <!-- Modal Auth -->
-  <dialog id="auth-modal">
-    <form method="dialog" class="auth-form" id="auth-form">
-      <h3>Iniciar sesión</h3>
-      <label>Correo <input type="email" id="auth-email" required placeholder="tu@correo.com" /></label>
-      <label>Contraseña <input type="password" id="auth-pass" required placeholder="********" /></label>
-      <div class="row">
-        <button id="btn-email-login" class="btn" value="close">Entrar</button>
-        <button id="btn-email-signup" class="btn btn-outline" type="button" value="close">Crear cuenta</button>
-      </div>
-      <button class="btn btn-outline" value="cancel">Cancelar</button>
-      <p class="hint">Usa cualquier correo. La contraseña que pediste: <b>solo usuario premiun</b>.</p>
-    </form>
-  </dialog>
+<!-- Modal: Elegir modo -->
+<dialog id="role-modal">
+  <form method="dialog" class="auth-form">
+    <h3>Elige cómo entrar</h3>
+    <p class="muted">Puedes entrar como <b>Cliente</b> (solo ver/descargar) o como 
+       <b>Administrador</b> (requiere iniciar sesión).</p>
+    <div class="row">
+      <button id="btn-as-client" class="btn btn-outline" value="close">Entrar como Cliente</button>
+      <button id="btn-as-admin"  class="btn"           value="close">Entrar como Administrador</button>
+    </div>
+    <button class="btn btn-outline" value="cancel">Cancelar</button>
+  </form>
+</dialog>
 
-  <script src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
-
-
-
