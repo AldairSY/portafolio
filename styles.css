@@ -59,3 +59,7 @@ dialog{border:none;background:#0c142a;color:var(--text);border:1px solid var(--b
 .auth-form input{background:#09122a;border:1px solid #24365a;color:var(--text);padding:10px 12px;border-radius:10px}
 .row{display:flex;gap:10px}
 .hint{font-size:.85rem;color:var(--muted)}
+
+#role-modal .row { display:flex; gap:10px; }
+#role-modal h3 { margin: 0 0 6px; }
+
