@@ -33,9 +33,9 @@ body{
 .user-email{font-size:.9rem;color:var(--muted)}
 
 /* Hero */
-.hero{position:relative;padding:56px 18px;overflow:hidden}
+.hero{position:relative;padding:64px 18px 48px;overflow:hidden}
 .hero-inner{max-width:1100px;margin:0 auto}
-.hero h1{margin:0 0 10px;font-size:clamp(24px,4.5vw,46px);line-height:1.15}
+.hero h1{margin:0 0 10px;font-size:clamp(26px,4.5vw,46px);line-height:1.15}
 .grad{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero p{margin:0 auto 16px;max-width:780px;color:var(--muted)}
 .blob{position:absolute;border-radius:50%;filter:blur(40px);opacity:.35;z-index:-1}
@@ -47,10 +47,10 @@ body{
 .hero-grid{
   display:grid;
   grid-template-columns: 1.3fr 1fr;
-  gap: 24px;
+  gap: 28px;
   align-items:center;
 }
-.dancer lottie-player{ width: 100%; max-width: 380px; height: 380px; margin: 0 auto; }
+.mascot{ width:100%; max-width:380px; height:auto; display:block; margin:0 auto; }
 
 /* Botones */
 .btn{
@@ -133,16 +133,19 @@ dialog{
 }
 .hint{font-size:.85rem;color:var(--muted)}
 
-/* Searchbar */
-.searchbar{ display:flex; gap:10px; justify-content:center; margin:10px 0 16px; }
+/* Searchbar (centrada y ancha) */
+.searchbar{
+  display:flex; gap:10px; align-items:center;
+  margin:12px auto 18px; width:100%; max-width:560px;
+}
 .searchbar input{
-  flex:1; max-width:420px;
+  flex:1; min-width:0;
   background:#0a1430;border:1px solid #29406a;color:var(--text);
-  padding:10px 12px;border-radius:12px;
+  padding:12px 14px;border-radius:12px;
 }
 
 /* Responsive */
-@media (max-width: 860px){
+@media (max-width: 900px){
   .hero-grid{ grid-template-columns: 1fr; }
   .dancer{ order:-1; display:flex; justify-content:center; }
 }
