@@ -89,6 +89,13 @@ btnEmailLogin && (btnEmailLogin.onclick = async (e) => {
   if (error) return alert(error.message);
   authModal.close(); afterAuth();
 });
+// Botón cancelar (cierra modal sin validar campos)
+const btnCancel = document.getElementById("btn-cancel");
+btnCancel && (btnCancel.onclick = () => {
+  authModal.close();
+  emailInput.value = "";
+  passInput.value = "";
+});
 
 btnEmailSignup && (btnEmailSignup.onclick = async () => {
   const { error } = await supabase.auth.signUp({
@@ -268,3 +275,4 @@ if (!currentMode) {
   // espera un tick para que el DOM esté listo
   setTimeout(() => openModeChooser(), 0);
 }
+
