@@ -64,15 +64,46 @@
       <p class="muted">Este sitio usa Supabase Auth & Storage. Las semanas son carpetas dentro del bucket <code>portafolio</code>.</p>
     </section>
 
-    <section id="contacto" class="info">
-      <h3>Contacto</h3>
-      <p class="muted">Aldair Sanchez Romero  · Sanchezaldair363@gmail.com</p>
-    </section>
-  </main>
+<section id="contacto" class="info">
+  <h3>Contacto</h3>
 
-  <footer class="footer">
-    <small>© <span id="year"></span> · Hecho con ❤️:v </small>
-  </footer>
+  <div class="contact-card">
+    <div class="contact-left">
+      <div class="avatar-circle">AS</div>
+      <div>
+        <h4 class="contact-name">Aldair Sanchez Romero</h4>
+        <p class="muted">Estudiante de Ingeniería de Sistemas</p>
+      </div>
+    </div>
+
+    <div class="contact-right">
+      <a class="icon-btn" 
+         href="https://wa.me/51940144021?text=Hola%20Aldair%2C%20vi%20tu%20portafolio." 
+         target="_blank" rel="noopener" aria-label="WhatsApp">
+        <!-- ícono WhatsApp (SVG) -->
+        <svg viewBox="0 0 32 32" width="20" height="20" aria-hidden="true">
+          <path d="M19.1 17.6c-.3-.1-1-.5-1.1-.6s-.3-.1-.4.1-.5.6-.6.7-.2.1-.4 0c-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.6-1.4-1.9s0-.3.1-.4c.1-.1.3-.3.4-.4.1-.1.1-.2.2-.3s0-.2 0-.3 0-.3 0-.4c0-.1-.1-.3-.2-.4s-.4-.4-.5-.5-.3-.1-.4-.1h-.3c-.1 0-.4.1-.6.3s-.8.8-.8 2 .8 2.3.9 2.5c.1.2 1.6 2.5 3.9 3.4 2.3.9 2.3.6 2.7.6s1.3-.5 1.5-1.1.2-1 .1-1.1c-.2-.1-.4-.2-.7-.3zM16 3C9.4 3 4 8.4 4 15c0 2.6.8 5 2.2 7l-1.5 5.5 5.7-1.5C12.6 27.2 14.3 27.6 16 27.6 22.6 27.6 28 22.2 28 15.6S22.6 3 16 3zm0 22.6c-1.5 0-3-.4-4.3-1.1l-.3-.2-3.4.9.9-3.3-.2-.3C7.8 20 7.3 17.8 7.3 15.6 7.3 10 11.8 5.6 17.4 5.6S27.4 10 27.4 15.6 22 25.6 16 25.6z" fill="currentColor"/>
+        </svg>
+        <span>WhatsApp</span>
+      </a>
+
+      <a class="icon-btn" 
+         href="mailto:Sanchezaldair363@gmail.com?subject=Contacto%20desde%20el%20portafolio" 
+         aria-label="Correo">
+        <!-- ícono Correo (SVG) -->
+        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+          <path d="M2 6.5A2.5 2.5 0 0 1 4.5 4h15A2.5 2.5 0 0 1 22 6.5v11A2.5 2.5 0 0 1 19.5 20h-15A2.5 2.5 0 0 1 2 17.5v-11Zm2.3-.5 7.2 5.2L18.7 6H4.3Zm15.2 2.1-7.5 5.4a1.5 1.5 0 0 1-1.8 0L2.7 8.1V17.5c0 .6.4 1 1 1h15.8c.6 0 1-.4 1-1V8.1Z" fill="currentColor"/>
+        </svg>
+        <span>Correo</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="contact-row">
+    <div class="chip">📞 <b>+51 940 144 021</b></div>
+    <div class="chip">✉️ Sanchezaldair363@gmail.com</div>
+  </div>
+</section>
 
   <!-- Modal Auth -->
   <dialog id="auth-modal">
@@ -92,6 +123,7 @@
   <script src="app.js"></script>
 </body>
 </html>
+
 
 
 
