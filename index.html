@@ -13,11 +13,8 @@
   <!-- Estilos -->
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- Supabase JS v2 -->
+  <!-- Supabase v2 -->
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-
-  <!-- Lottie (muñequito bailando) -->
-  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 </head>
 <body>
 
@@ -36,13 +33,15 @@
   </div>
 </header>
 
+<!-- HÉROE -->
 <section class="hero">
   <div class="hero-inner hero-grid">
-    <div>
+    <!-- Columna texto -->
+    <div class="hero-copy">
       <h1>Portafolio de <span class="grad">Arquitectura de software</span></h1>
       <p>Aldair Sanchez Romero</p>
 
-      <!-- Buscador (resalta coincidencias en la semana seleccionada) -->
+      <!-- Buscador -->
       <div class="searchbar">
         <input id="q" type="search" placeholder="Buscar archivo (en la semana actual)..." />
         <button class="btn" id="btn-search">Buscar</button>
@@ -51,15 +50,37 @@
       <a class="btn" href="#semanas">Empezar</a>
     </div>
 
-    <!-- Muñequito bailando -->
-    <div class="dancer">
-      <lottie-player
-        src="https://assets7.lottiefiles.com/packages/lf20_h2lv9bsb.json"
-        background="transparent" speed="1" loop autoplay>
-      </lottie-player>
+    <!-- Columna muñequito (SVG inline, 100% fiable en GitHub Pages) -->
+    <div class="dancer" aria-hidden="true">
+      <svg class="mascot" viewBox="0 0 140 140" role="img">
+        <!-- Aura -->
+        <circle cx="70" cy="70" r="38" fill="#7aa2ff" opacity=".25">
+          <animate attributeName="r" values="34;38;34" dur="2.2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values=".18;.28;.18" dur="2.2s" repeatCount="indefinite"/>
+        </circle>
+        <!-- Cuerpo que “baila” -->
+        <g id="robot" transform="translate(70,70)">
+          <circle r="22" fill="#38e0cf"/>
+          <!-- ojos -->
+          <circle cx="-6" cy="-4" r="3" fill="#0b1020"/>
+          <circle cx="6" cy="-4" r="3" fill="#0b1020"/>
+          <!-- sonrisa animada -->
+          <path id="smile" d="M-8,6 Q0,12 8,6" stroke="#0b1020" stroke-width="2" fill="none">
+            <animate attributeName="d"
+              values="M-8,6 Q0,12 8,6; M-8,8 Q0,14 8,8; M-8,6 Q0,12 8,6"
+              dur="1.2s" repeatCount="indefinite"/>
+          </path>
+          <!-- baile: subir/bajar + rotar suave -->
+          <animateTransform attributeName="transform" type="translate"
+            dur="1.2s" values="0 0; 0 -3; 0 0" repeatCount="indefinite"/>
+          <animateTransform attributeName="transform" additive="sum" type="rotate"
+            dur="1.6s" values="-3 0 0; 3 0 0; -3 0 0" repeatCount="indefinite"/>
+        </g>
+      </svg>
     </div>
   </div>
 
+  <!-- blobs -->
   <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
 </section>
 
@@ -134,7 +155,7 @@
 <dialog id="role-modal">
   <form method="dialog" class="auth-form">
     <h3>Elige cómo entrar</h3>
-    <p class="muted">Puedes entrar como <b>Cliente</b> (ver/descargar) o como <b>Administrador</b> (requiere iniciar sesión y confirmación).</p>
+    <p class="muted">Cliente: ver/descargar · Administrador: requiere iniciar sesión y confirmación.</p>
     <div class="row">
       <button id="btn-as-client" class="btn btn-outline" value="close">Entrar como Cliente</button>
       <button id="btn-as-admin"  class="btn"           value="close">Entrar como Administrador</button>
@@ -143,10 +164,10 @@
   </form>
 </dialog>
 
-<!-- Lógica segura (usa tu app.js reforzado) -->
+<!-- Lógica (no toques tu app.js reforzado) -->
 <script src="app.js"></script>
 
-<!-- Mini script del buscador -->
+<!-- Buscador: resalta coincidencias en la semana actual -->
 <script>
   const q = document.getElementById("q");
   const btnSearch = document.getElementById("btn-search");
