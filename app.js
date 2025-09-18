@@ -46,32 +46,38 @@ function probeImage(url){
     im.src = url;
   });
 }
-async function loadAvatar(){
-  const img = qs(".perfil-img");
+const PROFILE_PATH = "perfil/aldair.jpg";
+
+function probeImage(url){
+  return new Promise(res=>{
+    const im = new Image();
+    im.onload = ()=>res(true);
+    im.onerror = ()=>res(false);
+    im.src = url;
+  });
+}
+
+async function loadAvatar(bust=false){
+  const img = document.querySelector(".perfil-img");
   if (!img) return;
 
-  // 1) Siempre mostramos el local de entrada (ya debe existir junto al index.html)
+  // 1) foto local de inicio
   img.src = "aldair.jpg";
 
   try {
-    const path = "perfil/aldair.jpg";
-    // 2) Intentamos primero signed URL (sirve con bucket privado)
-    const signed = await supabase.storage.from(BUCKET).createSignedUrl(path, 3600);
+    // 2) firmada (bucket privado)
+    const signed = await supabase.storage.from(BUCKET).createSignedUrl(PROFILE_PATH, 3600);
     if (signed.data?.signedUrl){
-      const ok = await probeImage(signed.data.signedUrl);
-      if (ok){ img.src = signed.data.signedUrl; return; }
+      const u = signed.data.signedUrl + (bust ? `&v=${Date.now()}` : "");
+      if (await probeImage(u)) { img.src = u; return; }
     }
-
-    // 3) Si no hay signed (o falló), probamos publicUrl SOLO si realmente sirve
-    const pub = supabase.storage.from(BUCKET).getPublicUrl(path).data?.publicUrl;
+    // 3) pública
+    const pub = supabase.storage.from(BUCKET).getPublicUrl(PROFILE_PATH).data?.publicUrl;
     if (pub){
-      const ok = await probeImage(pub);
-      if (ok){ img.src = pub; return; }
+      const u = pub + (bust ? `?v=${Date.now()}` : "");
+      if (await probeImage(u)) { img.src = u; return; }
     }
-  } catch (_) {
-    // ignoramos y mantenemos el local
-  }
-  // Si nada funcionó, queda el local sin romper nada.
+  } catch(_) {}
 }
 
 /* ====== RENDER WEEKS ====== */
@@ -177,5 +183,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
   const form = document.getElementById("contactForm");
   if (form) form.addEventListener("submit", handleContactSubmit);
 });
+
 
 
