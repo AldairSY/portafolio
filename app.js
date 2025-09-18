@@ -1,16 +1,9 @@
-/* =========================
-   app.js — portada
-   - Render 16 semanas con links a week.html?week=N
-   - Auth Supabase (login/logout) → modo admin
-   - Avatar desde Storage (fallback local)
-   ========================= */
-
+// ===== Portada con botón "Ver detalle" en color accent =====
 const SUPABASE_URL = "https://feiygnfxolxetwfrjfsh.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlaXlnbmZ4b2x4ZXR3ZnJqZnNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcxOTU1MjAsImV4cCI6MjA3Mjc3MTUyMH0.ge5Ciw_9MvIGR4y8JznteQV8sICcCBzivEapGxWnFbI";
 const BUCKET = "portafolio";
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// Datos base (si quieres, luego los movemos a Supabase tabla weeks)
 const DEFAULT_WEEKS = [
   { n: 1,  title: "Introducción y alcance",        state: "Planificado", text: "Objetivos del curso, metodología, herramientas y repositorios." },
   { n: 2,  title: "Levantamiento de requerimientos",state: "Planificado", text: "Entrevistas, historias de usuario, criterios de aceptación." },
@@ -31,12 +24,10 @@ const DEFAULT_WEEKS = [
 ];
 
 const qs = (s, c=document)=>c.querySelector(s);
-const qsa=(s, c=document)=>Array.from(c.querySelectorAll(s));
 
 function setAdminMode(on, label="Admin"){
   document.body.classList.toggle("admin-on", !!on);
-  const t = qs("#adminStateText");
-  if (t) t.textContent = on ? label : "Administrador";
+  const t = qs("#adminStateText"); if (t) t.textContent = on ? label : "Administrador";
 }
 
 function renderWeeks(){
@@ -55,7 +46,7 @@ function renderWeeks(){
           <h5 class="card-title">${w.title}</h5>
           <p class="card-text">${w.text}</p>
           <div class="d-flex gap-2">
-            <a class="btn btn-sm btn-danger-emphasis" href="week.html?week=${w.n}">
+            <a class="btn btn-sm btn-accent" href="week.html?week=${w.n}">
               <i class="bi bi-eye me-1"></i>Ver detalle
             </a>
             <a class="btn btn-sm btn-outline-light" href="week.html?week=${w.n}#archivos">
@@ -77,18 +68,14 @@ async function loadAvatar(){
     const signed = await supabase.storage.from(BUCKET).createSignedUrl(path, 3600);
     if (signed.data?.signedUrl) { img.src = signed.data.signedUrl; return; }
   } catch {}
-  // fallback local
   img.src = "aldair.jpg";
 }
 
 async function checkSession(){
   const { data:{ session } } = await supabase.auth.getSession();
   setAdminMode(!!session, session?.user?.email || "Admin");
-  supabase.auth.onAuthStateChange((_e, s)=>{
-    setAdminMode(!!s, s?.user?.email || "Admin");
-  });
+  supabase.auth.onAuthStateChange((_e, s)=> setAdminMode(!!s, s?.user?.email || "Admin"));
 }
-
 function setupAuth(){
   qs("#adminForm")?.addEventListener("submit", async (e)=>{
     e.preventDefault();
