@@ -236,3 +236,12 @@ document.addEventListener("DOMContentLoaded", ()=>{
   const cf = document.getElementById("contactForm");
   if (cf) cf.addEventListener("submit", handleContactSubmit);
 });
+// Pausar/activar animación del aro según visibilidad
+document.addEventListener("DOMContentLoaded", ()=>{
+  const ring = document.querySelector(".poke-ring");
+  if (!ring) return;
+  const obs = new IntersectionObserver(([e])=>{
+    ring.style.animationPlayState = e.isIntersecting ? "running" : "paused";
+  }, { threshold: .2 });
+  obs.observe(ring);
+});
