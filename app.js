@@ -131,3 +131,38 @@ document.addEventListener("DOMContentLoaded", ()=>{
   initAuth();
   const y = qs("#year"); if (y) y.textContent = new Date().getFullYear();
 });
+// ====== FORMULARIO DE CONTACTO ======
+const contactForm = document.getElementById("contactForm");
+
+if (contactForm) {
+  contactForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById("contactName").value.trim();
+    const email = document.getElementById("contactEmail").value.trim();
+    const message = document.getElementById("contactMessage").value.trim();
+
+    if (!name || !email || !message) {
+      alert("Por favor, completa todos los campos.");
+      return;
+    }
+
+    try {
+      const { error } = await supabase.from("contact_messages").insert([
+        { name, email, message }
+      ]);
+
+      if (error) {
+        console.error("Error al enviar mensaje:", error.message);
+        alert("Hubo un problema al enviar tu mensaje. Intenta de nuevo.");
+      } else {
+        alert("✅ ¡Tu mensaje fue enviado con éxito!");
+        contactForm.reset();
+      }
+    } catch (err) {
+      console.error("Error inesperado:", err);
+      alert("Ocurrió un error inesperado.");
+    }
+  });
+}
+
