@@ -170,3 +170,46 @@ footer{ color: var(--muted-2); }
 @media (max-width: 576px){
   .oval-frame{ width: 220px; height: 300px; }
 }
+/* --- Botón accent para "Ver detalle" --- */
+.btn-accent{
+  background: var(--btn); /* usa tu gradiente coral del tema */
+  border: none;
+  color: var(--btnText);
+  box-shadow: var(--shadow);
+}
+.btn-accent:hover{ filter: brightness(.93); }
+
+/* --- Miniaturas y panel de previsualización en week.html --- */
+.file-thumb {
+  width: 44px; height: 44px; object-fit: cover; border-radius: 8px;
+  border: 1px solid var(--border); margin-right: .6rem;
+}
+.preview-pane{
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1rem;
+}
+.preview-title{ color: #fff; font-weight: 600; margin-bottom: .6rem; }
+.preview-empty{
+  color: var(--muted-2);
+  font-style: italic;
+}
+.preview-embed{
+  width: 100%;
+  min-height: 420px;
+  border: 0;
+  border-radius: 12px;
+  background: #0d1426;
+}
+.preview-media{
+  width: 100%;
+  border-radius: 12px;
+  outline: none;
+  background: #0d1426;
+}
+.list-group-item .file-meta{
+  color: var(--muted-2);
+  font-size: .85rem;
+}
+
