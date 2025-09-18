@@ -1,4 +1,4 @@
-<!doctype html>
+  <!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
@@ -14,14 +14,16 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
-  <!-- Estilos propios -->
+  <!-- Tus estilos -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top glass-nav">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="#perfil"><span class="brand-dot me-2"></span>Aldair</a>
+      <a class="navbar-brand fw-bold" href="#perfil">
+        <span class="brand-dot me-2"></span>Aldair
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain" aria-controls="navMain" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -32,7 +34,6 @@
           <li class="nav-item"><a class="nav-link" href="#portafolio">Portafolio</a></li>
           <li class="nav-item"><a class="nav-link" href="#habilidades">Habilidades</a></li>
           <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
-
           <!-- Acceso admin -->
           <li class="nav-item">
             <a id="adminOpen" class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#adminModal">
@@ -54,7 +55,8 @@
         <!-- Foto oval -->
         <div class="col-12 col-md-5 d-flex justify-content-center">
           <figure class="oval-frame shadow-lg">
-            <img src="aldair.jpg" class="img-fluid" alt="Foto de Aldair">
+            <!-- La clase .perfil-img ayuda al JS a ubicar tu foto -->
+            <img src="aldair.jpg" class="img-fluid perfil-img" alt="Foto de Aldair">
           </figure>
         </div>
 
@@ -96,325 +98,19 @@
     </div>
   </section>
 
-  <!-- SEMANAS (1–16) -->
+  <!-- SEMANAS (el JS pintará aquí las 16 tarjetas) -->
   <section id="semanas" class="py-5 section-alt">
     <div class="container">
       <div class="d-flex align-items-center justify-content-between mb-4">
         <h2 class="h1 m-0">Semanas</h2>
         <span class="section-tag">Plan 16 semanas</span>
       </div>
-
-      <div class="row g-4">
-        <!-- Repite 16 tarjetas -->
-        <!-- Semana 1 -->
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card week-card h-100">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="week-badge">Semana 1</span>
-                <small class="text-muted-2">Estado: Planificado</small>
-              </div>
-              <h5 class="card-title">Introducción y alcance</h5>
-              <p class="card-text">Objetivos del curso, metodología, herramientas y repositorios de trabajo.</p>
-              <div class="d-flex gap-2">
-                <a href="#" class="btn btn-sm btn-primary"><i class="bi bi-eye me-1"></i>Ver detalle</a>
-                <a href="#" class="btn btn-sm btn-outline-light"><i class="bi bi-paperclip me-1"></i>Adjuntos</a>
-                <a href="#" class="btn btn-sm btn-warning" data-admin-only><i class="bi bi-pencil-square me-1"></i>Editar</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Semana 2 -->
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card week-card h-100">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="week-badge">Semana 2</span>
-                <small class="text-muted-2">Estado: Planificado</small>
-              </div>
-              <h5 class="card-title">Levantamiento de requerimientos</h5>
-              <p class="card-text">Entrevistas, historias de usuario y criterios de aceptación.</p>
-              <div class="d-flex gap-2">
-                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
-                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
-                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Semana 3 -->
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card week-card h-100">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="week-badge">Semana 3</span>
-                <small class="text-muted-2">Estado: Planificado</small>
-              </div>
-              <h5 class="card-title">Modelado de procesos (BPMN)</h5>
-              <p class="card-text">Diagramas AS-IS / TO-BE y priorización de mejoras.</p>
-              <div class="d-flex gap-2">
-                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
-                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
-                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Semana 4 -->
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card week-card h-100">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="week-badge">Semana 4</span>
-                <small class="text-muted-2">Estado: Planificado</small>
-              </div>
-              <h5 class="card-title">Arquitectura (C4 + vistas)</h5>
-              <p class="card-text">Contexto, contenedores y componentes. Decisiones ADR.</p>
-              <div class="d-flex gap-2">
-                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
-                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
-                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Semana 5 -->
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card week-card h-100">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="week-badge">Semana 5</span>
-                <small class="text-muted-2">Estado: Planificado</small>
-              </div>
-              <h5 class="card-title">Diseño de datos (MER → SQL)</h5>
-              <p class="card-text">Entidades, relaciones y normalización. Script base.</p>
-              <div class="d-flex gap-2">
-                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
-                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
-                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Semana 6 -->
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card week-card h-100">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="week-badge">Semana 6</span>
-                <small class="text-muted-2">Estado: Planificado</small>
-              </div>
-              <h5 class="card-title">Front-end base</h5>
-              <p class="card-text">Componentes Bootstrap y patrones de UI accesibles.</p>
-              <div class="d-flex gap-2">
-                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
-                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
-                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Semana 7 -->
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card week-card h-100">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="week-badge">Semana 7</span>
-                <small class="text-muted-2">Estado: Planificado</small>
-              </div>
-              <h5 class="card-title">Back-end base</h5>
-              <p class="card-text">APIs REST, controladores y validaciones.</p>
-              <div class="d-flex gap-2">
-                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
-                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
-                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Semana 8 -->
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card week-card h-100">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="week-badge">Semana 8</span>
-                <small class="text-muted-2">Estado: Parcial</small>
-              </div>
-              <h5 class="card-title">Autenticación</h5>
-              <p class="card-text">Sesiones, JWT / Supabase Auth y roles.</p>
-              <div class="d-flex gap-2">
-                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
-                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
-                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Semana 9 -->
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card week-card h-100">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="week-badge">Semana 9</span>
-                <small class="text-muted-2">Estado: Parcial</small>
-              </div>
-              <h5 class="card-title">Integración de datos</h5>
-              <p class="card-text">Persistencia, migraciones y seeds.</p>
-              <div class="d-flex gap-2">
-                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
-                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
-                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Semana 10 -->
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card week-card h-100">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="week-badge">Semana 10</span>
-                <small class="text-muted-2">Estado: Parcial</small>
-              </div>
-              <h5 class="card-title">Pruebas</h5>
-              <p class="card-text">Unitarias y de integración. Cobertura mínima.</p>
-              <div class="d-flex gap-2">
-                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
-                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
-                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Semana 11 -->
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card week-card h-100">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="week-badge">Semana 11</span>
-                <small class="text-muted-2">Estado: Parcial</small>
-              </div>
-              <h5 class="card-title">Seguridad</h5>
-              <p class="card-text">OWASP Top 10, roles y permisos.</p>
-              <div class="d-flex gap-2">
-                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
-                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
-                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Semana 12 -->
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card week-card h-100">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="week-badge">Semana 12</span>
-                <small class="text-muted-2">Estado: Parcial</small>
-              </div>
-              <h5 class="card-title">DevOps</h5>
-              <p class="card-text">CI/CD, contenedores y despliegue.</p>
-              <div class="d-flex gap-2">
-                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
-                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
-                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Semana 13 -->
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card week-card h-100">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="week-badge">Semana 13</span>
-                <small class="text-muted-2">Estado: Parcial</small>
-              </div>
-              <h5 class="card-title">BI & Dashboards</h5>
-              <p class="card-text">Métricas, KPIs y visualizaciones.</p>
-              <div class="d-flex gap-2">
-                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
-                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
-                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Semana 14 -->
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card week-card h-100">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="week-badge">Semana 14</span>
-                <small class="text-muted-2">Estado: Parcial</small>
-              </div>
-              <h5 class="card-title">Ajustes finales</h5>
-              <p class="card-text">Refactor, performance y accesibilidad.</p>
-              <div class="d-flex gap-2">
-                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
-                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
-                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Semana 15 -->
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card week-card h-100">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="week-badge">Semana 15</span>
-                <small class="text-muted-2">Estado: Revisión</small>
-              </div>
-              <h5 class="card-title">Ensayo de sustentación</h5>
-              <p class="card-text">Diapositivas, demos y Q&A.</p>
-              <div class="d-flex gap-2">
-                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
-                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
-                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Semana 16 -->
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="card week-card h-100">
-            <div class="card-body">
-              <div class="d-flex justify-content-between align-items-center mb-2">
-                <span class="week-badge">Semana 16</span>
-                <small class="text-muted-2">Estado: Final</small>
-              </div>
-              <h5 class="card-title">Entrega final</h5>
-              <p class="card-text">Producto terminado, documentación y retroalimentación.</p>
-              <div class="d-flex gap-2">
-                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
-                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
-                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div><!-- /row -->
+      <!-- IMPORTANTE: esta fila debe estar vacía para que app.js inserte las 16 semanas -->
+      <div class="row g-4"></div>
     </div>
   </section>
 
-  <!-- PORTAFOLIO (placeholder bonito) -->
+  <!-- PORTAFOLIO -->
   <section id="portafolio" class="py-5">
     <div class="container">
       <div class="d-flex align-items-center justify-content-between mb-4">
@@ -451,6 +147,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </section>
 
@@ -522,19 +219,15 @@
     </div>
   </section>
 
-  <!-- PANEL ADMIN (visible solo si hay sesión admin) -->
+  <!-- PANEL ADMIN (visible solo modo admin) -->
   <section id="admin" class="py-5" data-admin-only>
     <div class="container">
       <div class="d-flex align-items-center justify-content-between mb-4">
         <h2 class="h1 m-0">Panel de Administración</h2>
         <span class="section-tag">Privado</span>
       </div>
-      <p class="text-muted-2 mb-4">Ahora puedes ver y usar botones “Editar” en Semanas. Integra aquí tu lógica real (Supabase, etc.).</p>
-
-      <div class="alert alert-info">
-        <i class="bi bi-info-circle me-2"></i>
-        Esta sección solo aparece para administradores (señal: clase <code>admin-on</code> en <code>&lt;body&gt;</code>).
-      </div>
+      <p class="text-muted-2 mb-4">Aquí verás herramientas para gestionar contenido (visible cuando inicies sesión).</p>
+      <!-- El app.js inyecta aquí el panel de subida a Storage -->
     </div>
   </section>
 
@@ -544,7 +237,7 @@
     </div>
   </footer>
 
-  <!-- Modal de Acceso Admin -->
+  <!-- Modal de Acceso Admin (IDs exactos que usa app.js) -->
   <div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <form class="modal-content" id="adminForm">
@@ -554,14 +247,14 @@
         </div>
         <div class="modal-body">
           <div class="mb-3">
-            <label class="form-label">Usuario</label>
-            <input type="text" class="form-control" id="adminUser" placeholder="admin" required>
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" id="adminUser" placeholder="admin@correo.com" required>
           </div>
           <div class="mb-3">
             <label class="form-label">Contraseña</label>
             <input type="password" class="form-control" id="adminPass" placeholder="•••••••" required>
           </div>
-          <div class="form-text">Demo local (luego lo puedes conectar a Supabase). Usuario: <b>admin</b> — Clave: <b>admin123</b></div>
+          <div class="form-text">Autenticación real con Supabase (Email/Password).</div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancelar</button>
@@ -571,58 +264,9 @@
     </div>
   </div>
 
-  <!-- Bootstrap JS -->
+  <!-- ============ SCRIPTS (Checklist: Supabase antes de app.js) ============ -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Tu JS (NO modificado) -->
   <script src="app.js"></script>
-
-  <!-- Script mínimo para sesión admin local (sin tocar app.js) -->
-  <script>
-    const ADMIN_USER = "admin";
-    const ADMIN_PASS = "admin123";
-
-    const yearEl = document.getElementById('year');
-    if (yearEl) yearEl.textContent = new Date().getFullYear();
-
-    function setAdminMode(on){
-      if(on){
-        document.body.classList.add('admin-on');
-        localStorage.setItem('isAdmin','1');
-        document.getElementById('adminStateText').textContent = 'Admin';
-      }else{
-        document.body.classList.remove('admin-on');
-        localStorage.removeItem('isAdmin');
-        document.getElementById('adminStateText').textContent = 'Administrador';
-      }
-    }
-
-    // Restaurar estado
-    setAdminMode(localStorage.getItem('isAdmin') === '1');
-
-    // Login
-    document.getElementById('adminForm').addEventListener('submit', (e)=>{
-      e.preventDefault();
-      const u = document.getElementById('adminUser').value.trim();
-      const p = document.getElementById('adminPass').value;
-      if(u === ADMIN_USER && p === ADMIN_PASS){
-        setAdminMode(true);
-        const modal = bootstrap.Modal.getInstance(document.getElementById('adminModal'));
-        modal.hide();
-      }else{
-        alert('Credenciales incorrectas');
-      }
-    });
-
-    // Logout
-    document.getElementById('adminLogout').addEventListener('click', (e)=>{
-      e.preventDefault();
-      setAdminMode(false);
-    });
-  </script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="app.js"></script>
-
 </body>
 </html>
-
