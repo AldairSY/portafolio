@@ -17,13 +17,13 @@
   <!-- NAV -->
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top glass-nav">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="#perfil"><span class="brand-dot me-2"></span>Aldair</a>
+      <a class="navbar-brand fw-bold" href="#sobre-mi"><span class="brand-dot me-2"></span>Aldair</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navMain">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link active" href="#perfil">Perfil</a></li>
+          <li class="nav-item"><a class="nav-link active" href="#sobre-mi">Sobre mí</a></li>
           <li class="nav-item"><a class="nav-link" href="#semanas">Semanas</a></li>
           <li class="nav-item"><a class="nav-link" href="#portafolio">Portafolio</a></li>
           <li class="nav-item"><a class="nav-link" href="#habilidades">Habilidades</a></li>
@@ -41,54 +41,113 @@
     </div>
   </nav>
 
-  <!-- PERFIL -->
-  <section id="perfil" class="py-5 hero-section">
+  <!-- SOBRE MÍ (Poké-theme) -->
+  <section id="sobre-mi" class="py-5">
     <div class="container">
-      <div class="row align-items-center g-5">
-        <div class="col-12 col-md-5 d-flex justify-content-center">
-          <figure class="oval-frame shadow-lg">
-            <!-- Si existe en Supabase usa ese; si no, usa este local -->
-            <img src="aldair.jpg" class="img-fluid perfil-img" alt="Foto de Aldair">
+      <div class="text-center mb-5">
+        <h2 class="display-5 fw-bold mb-2">Sobre <span class="text-gradient">Mí</span></h2>
+        <p class="text-muted-2 m-auto" style="max-width:900px">
+          ¡Hola! Soy Aldair, ingeniero en sistemas. Me gusta construir software útil,
+          aprender cosas nuevas y darle un toque creativo a cada proyecto.
+        </p>
+      </div>
+
+      <div class="row g-4 align-items-start">
+        <!-- Avatar con anillo Poké -->
+        <div class="col-12 col-lg-4 d-flex justify-content-center">
+          <div class="poke-card">
+            <div class="poke-ring">
+              <img src="aldair.jpg" alt="Aldair" class="poke-avatar perfil-img">
+            </div>
+
+            <!-- Barra social -->
+            <div class="social-bar mt-4">
+              <a class="social-btn" href="https://wa.me/51940144021" target="_blank" rel="noopener" title="WhatsApp"><i class="bi bi-whatsapp"></i></a>
+              <a class="social-btn" href="https://facebook.com" target="_blank" rel="noopener" title="Facebook"><i class="bi bi-facebook"></i></a>
+              <a class="social-btn" href="https://instagram.com" target="_blank" rel="noopener" title="Instagram"><i class="bi bi-instagram"></i></a>
+              <a class="social-btn" href="https://github.com" target="_blank" rel="noopener" title="GitHub"><i class="bi bi-github"></i></a>
+              <a class="social-btn" href="mailto:tuemail@correo.com" title="Email"><i class="bi bi-envelope-fill"></i></a>
+            </div>
+
             <!-- Controles de foto (solo admin) -->
-<div class="mt-3" data-admin-only style="display:none;">
-  <div class="row g-2 align-items-center">
-    <div class="col-12 col-md-6">
-      <input type="file" accept="image/*" id="pfInput" class="form-control">
-    </div>
-    <div class="col-12 col-md-6 d-flex flex-wrap gap-2">
-      <button type="button" class="btn btn-primary" id="pfSaveBtn">
-        <i class="bi bi-cloud-arrow-up me-1"></i> Guardar como foto
-      </button>
-      <button type="button" class="btn btn-outline-light" id="pfPreviewBtn">
-        <i class="bi bi-eye me-1"></i> Previsualizar
-      </button>
-      <button type="button" class="btn btn-danger" id="pfDeleteBtn">
-        <i class="bi bi-trash me-1"></i> Borrar foto
-      </button>
-    </div>
-    <div class="col-12">
-      <small class="text-muted-2">Se guarda en <code>perfil/aldair.jpg</code> del bucket <code>portafolio</code>.</small>
-    </div>
-  </div>
-</div>
-
-          </figure>
+            <div class="mt-3" data-admin-only style="display:none;">
+              <div class="row g-2 align-items-center">
+                <div class="col-12">
+                  <input type="file" accept="image/*" id="pfInput" class="form-control">
+                </div>
+                <div class="col-12 d-flex flex-wrap gap-2">
+                  <button type="button" class="btn btn-primary" id="pfSaveBtn">
+                    <i class="bi bi-cloud-arrow-up me-1"></i> Guardar como foto
+                  </button>
+                  <button type="button" class="btn btn-outline-light" id="pfPreviewBtn">
+                    <i class="bi bi-eye me-1"></i> Previsualizar
+                  </button>
+                  <button type="button" class="btn btn-danger" id="pfDeleteBtn">
+                    <i class="bi bi-trash me-1"></i> Borrar foto
+                  </button>
+                </div>
+                <div class="col-12">
+                  <small class="text-muted-2">Se guarda en <code>perfil/aldair.jpg</code> del bucket <code>portafolio</code>.</small>
+                </div>
+              </div>
+            </div>
+            <!-- /Controles admin -->
+          </div>
         </div>
-        <div class="col-12 col-md-7">
-          <p class="text-accent mb-1 fw-semibold tracking">Perfil</p>
-          <h1 class="display-5 fw-bold lh-1 mb-2">Hola, soy <span class="text-gradient">Aldair</span></h1>
-          <p class="lead text-muted-2 mb-3">Soy <span class="fw-semibold">Ingeniero en Sistemas</span></p>
-        <p class="lead intro-text mb-4">
-  Bienvenido(a) a mi espacio profesional. Aquí comparto mis proyectos, habilidades y experiencias en el mundo del desarrollo de software y la innovación tecnológica. 
-  Mi objetivo es crear soluciones efectivas y aportar valor mediante la tecnología.
-</p>
 
-          <div class="d-flex flex-wrap gap-3">
-            <a href="#semanas" class="btn btn-accent btn-lg px-4"><i class="bi bi-calendar-week me-2"></i> Ver Semanas</a>
-            <a href="#contacto" class="btn btn-outline-light btn-lg px-4"><i class="bi bi-envelope-at me-2"></i>Contacto</a>
+        <!-- Texto y datos -->
+        <div class="col-12 col-lg-8">
+          <div class="about-card p-4 p-md-5">
+            <h3 class="fw-bold mb-3">Hola, soy <span class="text-accent">Aldair</span> <span class="small text-muted-2">🧑‍💻</span></h3>
+            <p class="mb-4">
+              Profesional en Ingeniería de Sistemas especializado en desarrollo web, integración de APIs y gestión de bases de datos.
+               Apasionado por crear soluciones digitales que combinan funcionalidad, escalabilidad y diseño,
+                contribuyendo a proyectos de alto impacto tecnológico.
+            </p>
+
+            <div class="row g-4">
+              <div class="col-md-6">
+                <h5 class="mb-3">Datos personales</h5>
+                <ul class="list-unstyled about-list">
+                  <li><i class="bi bi-cake2 me-2"></i> Nacimiento: <span class="text-muted-2">29-04-2004</span></li>
+                  <li><i class="bi bi-telephone me-2"></i> Teléfono: <span class="text-muted-2">+51 940 144 021</span></li>
+                  <li><i class="bi bi-envelope-open me-2"></i> Email: <span class="text-muted-2">sanchezaldair363@correo.com</span></li>
+                  <li><i class="bi bi-geo-alt me-2"></i> Dirección: <span class="text-muted-2">Huancayo, Perú</span></li>
+                  <li><i class="bi bi-mortarboard me-2"></i> Cargo: <span class="badge bg-success-subtle text-success-emphasis">Ingeniero en Sistemas</span></li>
+                </ul>
+              </div>
+
+              <div class="col-md-6">
+                <h5 class="mb-3">Intereses</h5>
+                <div class="interests-grid">
+                  <div class="interest"><i class="bi bi-controller"></i><span>Juegos</span></div>
+                  <div class="interest"><i class="bi bi-music-note-beamed"></i><span>Música</span></div>
+                  <div class="interest"><i class="bi bi-airplane"></i><span>Viajar</span></div>
+                  <div class="interest"><i class="bi bi-book"></i><span>Libros</span></div>
+                  <div class="interest"><i class="bi bi-cpu"></i><span>IA & Data</span></div>
+                  <div class="interest"><i class="bi bi-lightning-charge"></i><span>Poké-Design</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mini “habilidades” con badges -->
+            <div class="mt-4">
+              <h6 class="text-muted-2 mb-2">Stack favorito</h6>
+              <div class="d-flex flex-wrap gap-2">
+                <span class="chip">HTML</span>
+                <span class="chip">CSS</span>
+                <span class="chip">Bootstrap</span>
+                <span class="chip">JavaScript</span>
+                <span class="chip">Supabase</span>
+                <span class="chip">Python</span>
+                <span class="chip">PostgreSQL</span>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
+
     </div>
   </section>
 
@@ -137,55 +196,56 @@
       </div>
     </div>
   </section>
-<section id="contacto" class="py-5 section-alt">
-  <div class="container">
-    <div class="d-flex align-items-center justify-content-between mb-4">
-      <h2 class="h1 m-0">Contacto</h2>
-      <span class="section-tag">Hablemos</span>
-    </div>
-    <div class="row g-4">
-      <div class="col-lg-6">
-        <div class="contact-card p-4">
-          <p class="mb-1 text-muted-2">Correo</p>
-          <a class="fw-semibold link-underline-opacity-0" href="mailto:tuemail@correo.com">sanchezaldair363@.com</a>
-          <hr class="my-4">
-          <p class="mb-1 text-muted-2">WhatsApp</p>
-          <a class="fw-semibold link-underline-opacity-0" href="https://wa.me/51940144021" target="_blank" rel="noopener">
-            +51 940 144 021
-          </a>
+
+  <!-- CONTACTO -->
+  <section id="contacto" class="py-5 section-alt">
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h2 class="h1 m-0">Contacto</h2>
+        <span class="section-tag">Hablemos</span>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="contact-card p-4">
+            <p class="mb-1 text-muted-2">Correo</p>
+            <a class="fw-semibold link-underline-opacity-0" href="mailto:sanchezaldair363@gmail.com">sanchezaldair363@gmail.com</a>
+            <hr class="my-4">
+            <p class="mb-1 text-muted-2">WhatsApp</p>
+            <a class="fw-semibold link-underline-opacity-0" href="https://wa.me/51940144021" target="_blank" rel="noopener">
+              +51 940 144 021
+            </a>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <form class="contact-card p-4" id="contactForm">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label" for="cName">Nombre</label>
+                <input type="text" id="cName" class="form-control form-control-lg" placeholder="Tu nombre" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label" for="cEmail">Email</label>
+                <input type="email" id="cEmail" class="form-control form-control-lg" placeholder="tu@correo.com" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label" for="cMsg">Mensaje</label>
+                <textarea rows="4" id="cMsg" class="form-control form-control-lg" placeholder="Cuéntame sobre tu proyecto" required></textarea>
+              </div>
+              <div class="col-12">
+                <button type="submit" class="btn btn-primary btn-lg" id="cSend">
+                  <i class="bi bi-send-fill me-2"></i>Enviar
+                </button>
+              </div>
+              <div class="col-12">
+                <div id="cAlert" class="alert d-none mt-3" role="alert"></div>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
-
-      <div class="col-lg-6">
-        <!-- IDs fijos que usará app.js -->
-        <form class="contact-card p-4" id="contactForm">
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label class="form-label" for="cName">Nombre</label>
-              <input type="text" id="cName" class="form-control form-control-lg" placeholder="Tu nombre" required>
-            </div>
-            <div class="col-md-6">
-              <label class="form-label" for="cEmail">Email</label>
-              <input type="email" id="cEmail" class="form-control form-control-lg" placeholder="tu@correo.com" required>
-            </div>
-            <div class="col-12">
-              <label class="form-label" for="cMsg">Mensaje</label>
-              <textarea rows="4" id="cMsg" class="form-control form-control-lg" placeholder="Cuéntame sobre tu proyecto" required></textarea>
-            </div>
-            <div class="col-12">
-              <button type="submit" class="btn btn-primary btn-lg" id="cSend">
-                <i class="bi bi-send-fill me-2"></i>Enviar
-              </button>
-            </div>
-            <div class="col-12">
-              <div id="cAlert" class="alert d-none mt-3" role="alert"></div>
-            </div>
-          </div>
-        </form>
-      </div>
     </div>
-  </div>
-</section>
+  </section>
 
   <!-- ADMIN (solo visible logueado) -->
   <section id="admin" class="py-5" data-admin-only>
@@ -230,7 +290,3 @@
   <script src="app.js"></script>
 </body>
 </html>
-
-
-
-
