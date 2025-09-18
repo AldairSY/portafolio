@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Semana | Detalle</title>
+
+  <!-- Bootstrap + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Estilos del sitio -->
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .page { padding-top: 24px; }
+    .crumb a { color: var(--accent-2); text-decoration: none; }
+    .crumb a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-dark glass-nav">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="index.html"><span class="brand-dot me-2"></span>Aldair</a>
+      <div class="d-flex align-items-center gap-3">
+        <a id="btnAdmin" class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#adminModal"><i class="bi bi-person-lock me-1"></i><span id="adminStateText">Administrador</span></a>
+        <a id="adminLogout" class="nav-link" href="#" data-admin-only style="display:none;"><i class="bi bi-box-arrow-right me-1"></i>Salir</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="page container">
+    <div class="crumb mb-3">
+      <a href="index.html#semanas"><i class="bi bi-arrow-left-short"></i> Volver</a>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between mb-3">
+      <h1 class="h2" id="wk-title">Semana</h1>
+      <span class="section-tag" id="wk-state">Estado</span>
+    </div>
+
+    <p id="wk-desc" class="mb-4 text-muted-2">Descripción…</p>
+
+    <hr class="my-4">
+
+    <div id="archivos">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <h2 class="h4 m-0">Archivos</h2>
+        <small class="text-muted-2">Carpeta: <code id="wk-folder">semanas/N</code></small>
+      </div>
+
+      <!-- Uploader (solo admin) -->
+      <div class="row g-2 align-items-center mb-3" data-admin-only style="display:none;">
+        <div class="col-md-5"><input type="file" class="form-control" id="fileInput"></div>
+        <div class="col-md-5"><input type="text" class="form-control" id="fileName" placeholder="nombre.ext (opcional)"></div>
+        <div class="col-md-2 d-grid"><button class="btn btn-primary" id="btnUpload"><i class="bi bi-cloud-arrow-up me-1"></i>Subir</button></div>
+      </div>
+
+      <div id="fileList" class="list-group small">
+        <!-- items -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal Login -->
+  <div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content" id="adminForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="adminModalLabel"><i class="bi bi-person-lock me-2"></i>Entrar como Administrador</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3"><label class="form-label">Email</label><input type="email" class="form-control" id="adminUser" placeholder="admin@correo.com" required></div>
+          <div class="mb-3"><label class="form-label">Contraseña</label><input type="password" class="form-control" id="adminPass" placeholder="•••••••" required></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Entrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // ===== Config Supabase (tus credenciales) =====
+    const SUPABASE_URL = "https://feiygnfxolxetwfrjfsh.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlaXlnbmZ4b2x4ZXR3ZnJqZnNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcxOTU1MjAsImV4cCI6MjA3Mjc3MTUyMH0.ge5Ciw_9MvIGR4y8JznteQV8sICcCBzivEapGxWnFbI";
+    const BUCKET = "portafolio";
+    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // ===== Datos base locales (mismos de index) =====
+    const DEFAULT_WEEKS = [
+      { n: 1,  title: "Introducción y alcance",        state: "Planificado", text: "Objetivos del curso, metodología, herramientas y repositorios." },
+      { n: 2,  title: "Levantamiento de requerimientos",state: "Planificado", text: "Entrevistas, historias de usuario, criterios de aceptación." },
+      { n: 3,  title: "Modelado de procesos (BPMN)",    state: "Planificado", text: "Diagramas AS-IS / TO-BE y priorización de mejoras." },
+      { n: 4,  title: "Arquitectura (C4 + vistas)",     state: "Planificado", text: "Contexto, contenedores y componentes. Decisiones ADR." },
+      { n: 5,  title: "Diseño de datos (MER → SQL)",    state: "Planificado", text: "Entidades, relaciones y normalización. Script base." },
+      { n: 6,  title: "Front-end base",                 state: "Planificado", text: "Componentes Bootstrap y patrones de UI accesibles." },
+      { n: 7,  title: "Back-end base",                  state: "Planificado", text: "APIs REST, controladores y validaciones." },
+      { n: 8,  title: "Autenticación",                  state: "Parcial",     text: "Sesiones, JWT / Supabase Auth y roles." },
+      { n: 9,  title: "Integración de datos",           state: "Parcial",     text: "Persistencia, migraciones y seeds." },
+      { n: 10, title: "Pruebas",                        state: "Parcial",     text: "Unitarias, integración y cobertura mínima." },
+      { n: 11, title: "Seguridad",                      state: "Parcial",     text: "OWASP Top 10, roles y permisos." },
+      { n: 12, title: "DevOps",                         state: "Parcial",     text: "CI/CD, contenedores y despliegue." },
+      { n: 13, title: "BI & Dashboards",                state: "Parcial",     text: "Métricas, KPIs y visualizaciones." },
+      { n: 14, title: "Ajustes finales",                state: "Parcial",     text: "Refactor, performance, accesibilidad." },
+      { n: 15, title: "Ensayo de sustentación",         state: "Revisión",    text: "Diapositivas, demos y Q&A." },
+      { n: 16, title: "Entrega final",                  state: "Final",       text: "Producto terminado, documentación y retroalimentación." },
+    ];
+
+    // ===== Helper =====
+    const qs=(s,c=document)=>c.querySelector(s);
+    function setAdmin(on, label="Admin"){
+      if(on){
+        document.body.classList.add("admin-on");
+        qs("#adminStateText").textContent = label;
+        // mostrar elementos data-admin-only
+        document.querySelectorAll("[data-admin-only]").forEach(el=>el.style.display = "");
+      }else{
+        document.body.classList.remove("admin-on");
+        qs("#adminStateText").textContent = "Administrador";
+        document.querySelectorAll("[data-admin-only]").forEach(el=>el.style.display = "none");
+      }
+    }
+
+    // ===== Cargar semana =====
+    const params = new URLSearchParams(location.search);
+    const N = Number(params.get("week") || "0");
+    const week = DEFAULT_WEEKS.find(w=>w.n===N) || { n:N, title:"Semana "+N, state:"-", text:"Sin descripción." };
+    qs("#wk-title").textContent = `Semana ${week.n} — ${week.title}`;
+    qs("#wk-state").textContent = `Estado: ${week.state}`;
+    qs("#wk-desc").textContent  = week.text;
+    qs("#wk-folder").textContent = `semanas/${week.n}`;
+
+    // ===== Listar archivos =====
+    async function listFiles(){
+      const list = qs("#fileList");
+      list.innerHTML = `<div class="list-group-item">Cargando...</div>`;
+      const folder = `semanas/${week.n}`;
+      const { data: files, error } = await sb.storage.from(BUCKET).list(folder, { limit:200, sortBy:{column:"name", order:"asc"} });
+      if (error){ list.innerHTML = `<div class="list-group-item text-danger">Error: ${error.message}</div>`; return; }
+      if (!files || files.length===0){ list.innerHTML = `<div class="list-group-item">Sin archivos.</div>`; return; }
+
+      const isAdmin = document.body.classList.contains("admin-on");
+      let html = "";
+      for (const f of files){
+        const full = `${folder}/${f.name}`;
+        let url = sb.storage.from(BUCKET).getPublicUrl(full).data?.publicUrl;
+        if (!url){
+          const s = await sb.storage.from(BUCKET).createSignedUrl(full, 3600);
+          url = s.data?.signedUrl;
+        }
+        html += `
+          <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <i class="bi bi-file-earmark me-2"></i>
+              <a href="${url}" target="_blank" rel="noopener">${f.name}</a>
+            </div>
+            ${isAdmin ? `<button class="btn btn-sm btn-danger" data-del="${full}"><i class="bi bi-trash"></i></button>` : ``}
+          </div>`;
+      }
+      list.innerHTML = html;
+
+      if (isAdmin){
+        list.querySelectorAll("[data-del]").forEach(btn=>{
+          btn.addEventListener("click", async ()=>{
+            const path = btn.getAttribute("data-del");
+            if (!confirm("¿Eliminar archivo?")) return;
+            const { error:err } = await sb.storage.from(BUCKET).remove([path]);
+            if (err) return alert("Error al eliminar: "+err.message);
+            listFiles();
+          });
+        });
+      }
+    }
+
+    // ===== Subir archivos =====
+    qs("#btnUpload")?.addEventListener("click", async ()=>{
+      const file = qs("#fileInput").files[0];
+      if (!file) return alert("Selecciona un archivo.");
+      const name = (qs("#fileName").value || file.name).trim();
+      const path = `semanas/${week.n}/${name}`;
+      const { error } = await sb.storage.from(BUCKET).upload(path, file, { upsert:true, cacheControl:"3600", contentType:file.type || undefined });
+      if (error) return alert("Error al subir: "+error.message);
+      qs("#fileInput").value = ""; qs("#fileName").value = "";
+      listFiles();
+    });
+
+    // ===== Auth =====
+    async function refreshSession(){
+      const { data:{ session } } = await sb.auth.getSession();
+      setAdmin(!!session, session?.user?.email || "Admin");
+    }
+    sb.auth.onAuthStateChange((_e, s)=> setAdmin(!!s, s?.user?.email || "Admin"));
+
+    qs("#adminForm")?.addEventListener("submit", async (e)=>{
+      e.preventDefault();
+      const email = qs("#adminUser").value.trim();
+      const password = qs("#adminPass").value;
+      const { error } = await sb.auth.signInWithPassword({ email, password });
+      if (error) alert("Error: "+error.message);
+      else (bootstrap.Modal.getInstance(qs("#adminModal"))||new bootstrap.Modal(qs("#adminModal"))).hide();
+    });
+
+    qs("#adminLogout")?.addEventListener("click", async (e)=>{
+      e.preventDefault();
+      await sb.auth.signOut();
+      setAdmin(false);
+    });
+
+    // Init
+    (async ()=>{
+      await refreshSession();
+      await listFiles();
+    })();
+  </script>
+</body>
+</html>
