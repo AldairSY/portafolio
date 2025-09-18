@@ -412,5 +412,94 @@ footer{ color: var(--muted-2); }
 }
 .btn-accent:hover{ filter: brightness(.93); }
 
- 
+ /* ===== SOBRE MÍ (Poké theme) ===== */
+.poke-card{
+  background: var(--panel, #0f172a);
+  border: 1px solid var(--border, #253046);
+  border-radius: 24px;
+  padding: 28px 24px;
+  text-align: center;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: 0 10px 40px rgba(0,0,0,.25);
+}
+
+.poke-ring{
+  --size: 220px;
+  width: var(--size); height: var(--size);
+  border-radius: 50%;
+  position: relative;
+  padding: 10px;
+  /* aro tipo Pokéball: rojo/negro con luz */
+  background:
+    conic-gradient(#ff6b6b 0 180deg, #0b1222 180deg 360deg);
+  box-shadow:
+    0 0 0 4px rgba(255,255,255,.08) inset,
+    0 12px 28px rgba(255, 106, 106, .2);
+  animation: rotate-slow 12s linear infinite;
+}
+@keyframes rotate-slow { to { transform: rotate(360deg); } }
+
+.poke-avatar{
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  border: 6px solid #0f172a;
+  box-shadow: 0 8px 30px rgba(0,0,0,.35);
+}
+
+.social-bar{
+  display: flex; justify-content: center; gap: 12px;
+}
+.social-btn{
+  width: 44px; height: 44px; display: grid; place-items: center;
+  border-radius: 12px; border: 1px solid rgba(255,255,255,.15);
+  background: rgba(255,255,255,.03);
+  color: #fff; text-decoration: none;
+  transition: transform .15s ease, background .2s ease;
+}
+.social-btn:hover{ transform: translateY(-2px); background: rgba(255,255,255,.08); }
+
+.about-card{
+  background: var(--panel, #0f172a);
+  border: 1px solid var(--border, #253046);
+  border-radius: 24px;
+}
+.about-list li{ margin-bottom: .55rem; }
+
+.interests-grid{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 12px;
+}
+@media (max-width: 480px){
+  .interests-grid{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+.interest{
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 16px;
+  padding: 14px 10px;
+  display: grid; place-items: center;
+  text-align: center; gap: 8px;
+}
+.interest i{ font-size: 1.3rem; }
+.interest span{ font-size: .9rem; }
+
+.chip{
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.14);
+  padding: .35rem .65rem;
+  border-radius: 999px;
+  font-size: .85rem;
+}
+
+/* Ajustes de colores ya de tu tema */
+.text-gradient{
+  background: linear-gradient(90deg, #ff6a6a, #ff9d6a, #36f0a1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
 
