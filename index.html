@@ -110,51 +110,53 @@
       </div>
     </div>
   </section>
-
-  <!-- CONTACTO -->
-  <section id="contacto" class="py-5 section-alt">
-    <div class="container">
-      <div class="d-flex align-items-center justify-content-between mb-4">
-        <h2 class="h1 m-0">Contacto</h2>
-        <span class="section-tag">Hablemos</span>
-      </div>
-      <div class="row g-4">
-        <div class="col-lg-6">
-          <div class="contact-card p-4">
-            <p class="mb-1 text-muted-2">Correo</p>
-            <a class="fw-semibold link-underline-opacity-0" href="mailto:tuemail@correo.com">tuemail@correo.com</a>
-            <hr class="my-4">
-            <p class="mb-1 text-muted-2">LinkedIn</p>
-            <a class="fw-semibold link-underline-opacity-0" href="https://www.linkedin.com/in/tuusuario" target="_blank" rel="noopener">linkedin.com/in/tuusuario</a>
-          </div>
+<section id="contacto" class="py-5 section-alt">
+  <div class="container">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <h2 class="h1 m-0">Contacto</h2>
+      <span class="section-tag">Hablemos</span>
+    </div>
+    <div class="row g-4">
+      <div class="col-lg-6">
+        <div class="contact-card p-4">
+          <p class="mb-1 text-muted-2">Correo</p>
+          <a class="fw-semibold link-underline-opacity-0" href="mailto:tuemail@correo.com">tuemail@correo.com</a>
+          <hr class="my-4">
+          <p class="mb-1 text-muted-2">LinkedIn</p>
+          <a class="fw-semibold link-underline-opacity-0" href="https://www.linkedin.com/in/tuusuario" target="_blank" rel="noopener">linkedin.com/in/tuusuario</a>
         </div>
-        <div class="col-lg-6">
+      </div>
+
+      <div class="col-lg-6">
+        <!-- IDs fijos que usará app.js -->
         <form class="contact-card p-4" id="contactForm">
-  <div class="row g-3">
-    <div class="col-md-6">
-      <label class="form-label">Nombre</label>
-      <input type="text" id="contactName" class="form-control form-control-lg" placeholder="Tu nombre" required>
-    </div>
-    <div class="col-md-6">
-      <label class="form-label">Email</label>
-      <input type="email" id="contactEmail" class="form-control form-control-lg" placeholder="tu@correo.com" required>
-    </div>
-    <div class="col-12">
-      <label class="form-label">Mensaje</label>
-      <textarea rows="4" id="contactMessage" class="form-control form-control-lg" placeholder="Cuéntame sobre tu proyecto" required></textarea>
-    </div>
-    <div class="col-12">
-      <button type="submit" class="btn btn-primary btn-lg">
-        <i class="bi bi-send-fill me-2"></i>Enviar
-      </button>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="cName">Nombre</label>
+              <input type="text" id="cName" class="form-control form-control-lg" placeholder="Tu nombre" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="cEmail">Email</label>
+              <input type="email" id="cEmail" class="form-control form-control-lg" placeholder="tu@correo.com" required>
+            </div>
+            <div class="col-12">
+              <label class="form-label" for="cMsg">Mensaje</label>
+              <textarea rows="4" id="cMsg" class="form-control form-control-lg" placeholder="Cuéntame sobre tu proyecto" required></textarea>
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary btn-lg" id="cSend">
+                <i class="bi bi-send-fill me-2"></i>Enviar
+              </button>
+            </div>
+            <div class="col-12">
+              <div id="cAlert" class="alert d-none mt-3" role="alert"></div>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
-</form>
-
-        </div>
-      </div>
-    </div>
-  </section>
+</section>
 
   <!-- ADMIN (solo visible logueado) -->
   <section id="admin" class="py-5" data-admin-only>
@@ -199,4 +201,5 @@
   <script src="app.js"></script>
 </body>
 </html>
+
 
