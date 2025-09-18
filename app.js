@@ -1,16 +1,23 @@
 /* =========================
-   app.js — COMPLETO con Supabase + Storage
-   - Supabase Auth (login/logout)
-   - Admin mode según sesión
-   - Render dinámico de 16 semanas
-   - Avatar desde Storage (fallback local)
+   app.js — ROBUSTO con Supabase v2
+   - Render 16 semanas SIEMPRE (aunque falle Supabase)
+   - Auth real (login/logout) con Supabase
+   - Avatar desde Storage (publicUrl o signedUrl), con fallback local
+   - Panel de subida (upload) inyectado en #admin, visible solo como admin
    ========================= */
 
-/* ========= Supabase ========= */
+/* ========= Supabase (tus datos) ========= */
 const SUPABASE_URL = "https://feiygnfxolxetwfrjfsh.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlaXlnbmZ4b2x4ZXR3ZnJqZnNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcxOTU1MjAsImV4cCI6MjA3Mjc3MTUyMH0.ge5Ciw_9MvIGR4y8JznteQV8sICcCBzivEapGxWnFbI";
 const BUCKET = "portafolio";
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// Crea cliente si la lib está cargada
+let supabase = null;
+if (window.supabase && window.supabase.createClient) {
+  supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+} else {
+  console.error("Supabase JS no está cargado. Asegúrate del <script> antes de app.js");
+}
 
 /* ========= Datos (16 semanas) ========= */
 const weeksData = [
@@ -36,18 +43,6 @@ const weeksData = [
 const qs  = (sel, ctx = document) => ctx.querySelector(sel);
 const qsa = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
 
-function setAdminMode(on, email = "") {
-  const body = document.body;
-  const adminText = qs("#adminStateText");
-  if (on) {
-    body.classList.add("admin-on");
-    if (adminText) adminText.textContent = email || "Admin";
-  } else {
-    body.classList.remove("admin-on");
-    if (adminText) adminText.textContent = "Administrador";
-  }
-}
-
 function setYear() {
   const el = qs("#year");
   if (el) el.textContent = new Date().getFullYear();
@@ -65,6 +60,18 @@ function smoothAnchors() {
       }
     });
   });
+}
+
+function setAdminMode(on, label = "Admin") {
+  const body = document.body;
+  const adminText = qs("#adminStateText");
+  if (on) {
+    body.classList.add("admin-on");
+    if (adminText) adminText.textContent = label;
+  } else {
+    body.classList.remove("admin-on");
+    if (adminText) adminText.textContent = "Administrador";
+  }
 }
 
 function createWeekCard(week) {
@@ -93,113 +100,183 @@ function createWeekCard(week) {
       </div>
     </div>
   `;
-  // Demo: acción Editar solo cuando hay admin-on
-  const editBtn = col.querySelector('[data-admin-only]');
-  editBtn?.addEventListener("click", (e) => {
-    e.preventDefault();
-    if (!document.body.classList.contains("admin-on")) return;
-    alert(`Editar Semana ${week.n} (demo). Aquí podrías abrir un modal para editar contenido y guardarlo en Supabase.`);
-  });
   return col;
 }
 
 function renderWeeks() {
   const container = qs("#semanas .row");
-  if (!container) return;
+  if (!container) {
+    console.warn("No se encontró #semanas .row — revisa tu index.html");
+    return;
+  }
   container.innerHTML = "";
   weeksData.forEach(w => container.appendChild(createWeekCard(w)));
 }
 
-/* ========= Avatar desde Supabase Storage (con fallback) ========= */
+/* ========= Avatar desde Storage (public o signed) con fallback ========= */
 async function loadAvatar() {
+  const img = qs(".oval-frame img.perfil-img") || qs(".oval-frame img") || qs(".perfil-img");
+  if (!img) return;
+
+  // si no hay supabase, usa local
+  if (!supabase) { img.src = "aldair.jpg"; return; }
+
+  const path = "perfil/aldair.jpg";
   try {
-    // Ruta sugerida en tu bucket: portafolio/perfil/aldair.jpg
-    const path = "perfil/aldair.jpg";
-    const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
-    const url = data?.publicUrl;
-
-    const img = qs(".oval-frame img.perfil-img") || qs(".oval-frame img") || qs(".perfil-img");
-    if (!img) return;
-
-    if (url) {
-      // Intentamos verificar que existe (opcional: confiar en publicUrl)
-      // Si prefieres evitar HEAD/fetch por CORS, comenta el fetch y asigna directo.
-      try {
-        const res = await fetch(url, { method: "HEAD" });
-        if (res.ok) {
-          img.src = url;
-          return;
-        }
-      } catch (_) { /* noop */ }
+    // 1) intento publicUrl
+    const { data: pub } = supabase.storage.from(BUCKET).getPublicUrl(path);
+    const publicUrl = pub?.publicUrl;
+    if (publicUrl) {
+      img.src = publicUrl;
+      return;
     }
-    // Fallback local
-    if (!img.src || img.src.endsWith("/") || img.src.includes("about:blank")) {
-      img.src = "aldair.jpg";
-    }
-  } catch (err) {
-    // Fallback local si algo falla
-    const img = qs(".oval-frame img.perfil-img") || qs(".oval-frame img") || qs(".perfil-img");
-    if (img) img.src = "aldair.jpg";
+  } catch (e) {
+    // sigue al signed
   }
+  try {
+    // 2) intento signedUrl (1 hora)
+    const { data, error } = await supabase.storage.from(BUCKET).createSignedUrl(path, 3600);
+    if (!error && data?.signedUrl) {
+      img.src = data.signedUrl;
+      return;
+    }
+  } catch (e) {
+    // sigue al fallback
+  }
+
+  // 3) fallback local
+  img.src = "aldair.jpg";
 }
 
-/* ========= Supabase Auth ========= */
+/* ========= Inyectar panel de subida (solo admin) ========= */
+function injectUploadPanel() {
+  const adminSec = qs("#admin .container");
+  if (!adminSec) return;
+  const wrap = document.createElement("div");
+  wrap.className = "mt-4";
+  wrap.setAttribute("data-admin-only", ""); // respeta visibilidad
+  wrap.innerHTML = `
+    <div class="contact-card p-4">
+      <h5 class="mb-3"><i class="bi bi-upload me-2"></i>Subir archivos al Storage</h5>
+      <div class="row g-2 align-items-center">
+        <div class="col-md-5">
+          <input type="file" class="form-control" id="fileInput" />
+        </div>
+        <div class="col-md-5">
+          <input type="text" class="form-control" id="filePath" placeholder="Ruta en bucket, ej: uploads/miarchivo.pdf" />
+        </div>
+        <div class="col-md-2 d-grid">
+          <button class="btn btn-primary" id="btnUpload"><i class="bi bi-cloud-arrow-up me-1"></i>Subir</button>
+        </div>
+      </div>
+      <div class="small text-muted mt-2">Bucket: <code>${BUCKET}</code> — si es privado, el enlace será firmado por 1 hora.</div>
+      <div class="mt-3" id="uploadResult"></div>
+    </div>
+  `;
+  adminSec.appendChild(wrap);
+
+  const btn = qs("#btnUpload");
+  btn.addEventListener("click", async () => {
+    const file = qs("#fileInput").files[0];
+    const path = (qs("#filePath").value || "").trim();
+    const out = qs("#uploadResult");
+    if (!file || !path) {
+      out.innerHTML = `<div class="text-warning">Selecciona un archivo y coloca una ruta destino.</div>`;
+      return;
+    }
+    if (!supabase) {
+      out.innerHTML = `<div class="text-danger">Supabase no está disponible (revisa el script en index.html).</div>`;
+      return;
+    }
+    out.innerHTML = `<div class="text-info">Subiendo...</div>`;
+    const { error } = await supabase.storage.from(BUCKET).upload(path, file, {
+      cacheControl: "3600",
+      upsert: true,                 // permite sobreescribir
+      contentType: file.type || undefined
+    });
+    if (error) {
+      out.innerHTML = `<div class="text-danger">Error: ${error.message}</div>`;
+      return;
+    }
+
+    // Intento public URL
+    let linkHtml = "";
+    try {
+      const { data: pub } = supabase.storage.from(BUCKET).getPublicUrl(path);
+      if (pub?.publicUrl) {
+        linkHtml = `<a href="${pub.publicUrl}" target="_blank" rel="noopener">Ver archivo (público)</a>`;
+      } else {
+        // Si no es público, genera signed URL
+        const { data: signed } = await supabase.storage.from(BUCKET).createSignedUrl(path, 3600);
+        if (signed?.signedUrl) {
+          linkHtml = `<a href="${signed.signedUrl}" target="_blank" rel="noopener">Ver archivo (enlace firmado 1h)</a>`;
+        }
+      }
+    } catch (_) { /* noop */ }
+
+    out.innerHTML = `<div class="text-success">Subido correctamente. ${linkHtml}</div>`;
+  });
+}
+
+/* ========= Auth con Supabase ========= */
 async function checkSession() {
+  if (!supabase) { setAdminMode(false); return; }
   const { data: { session } } = await supabase.auth.getSession();
-  setAdminMode(!!session, session?.user?.email);
+  setAdminMode(!!session, session?.user?.email || "Admin");
 }
 
 function setupAuthListeners() {
-  // Cambios de sesión
-  supabase.auth.onAuthStateChange((_event, session) => {
-    setAdminMode(!!session, session?.user?.email);
-  });
-
-  // Login con email/clave (usa el modal existente)
   const adminForm = qs("#adminForm");
+  const logoutLink = qs("#adminLogout");
+  const modalEl = qs("#adminModal");
+
+  // onAuthStateChange
+  if (supabase) {
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setAdminMode(!!session, session?.user?.email || "Admin");
+    });
+  }
+
+  // Login
   if (adminForm) {
     adminForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const email = qs("#adminUser")?.value.trim();
+      const email = qs("#adminUser")?.value?.trim();
       const password = qs("#adminPass")?.value;
-
       if (!email || !password) {
         alert("Completa email y contraseña.");
         return;
       }
-
+      if (!supabase) {
+        alert("Supabase no está disponible. Revisa el <script src='https://unpkg.com/@supabase/supabase-js@2'></script> antes de app.js");
+        return;
+      }
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) {
         alert("Error al iniciar sesión: " + error.message);
-      } else {
-        const modalEl = qs("#adminModal");
-        if (modalEl && window.bootstrap) {
-          const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
-          modal.hide();
-        }
+      } else if (window.bootstrap && modalEl) {
+        (bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl)).hide();
       }
     });
   }
 
   // Logout
-  const logoutLink = qs("#adminLogout");
   if (logoutLink) {
     logoutLink.addEventListener("click", async (e) => {
       e.preventDefault();
-      await supabase.auth.signOut();
+      if (supabase) await supabase.auth.signOut();
+      setAdminMode(false);
     });
   }
 }
 
-/* ========= Inicialización ========= */
+/* ========= Init ========= */
 document.addEventListener("DOMContentLoaded", () => {
   setYear();
   smoothAnchors();
-  renderWeeks();
-  setupAuthListeners();
-  checkSession();
-  loadAvatar(); // intenta cargar foto desde Storage (fallback a aldair.jpg)
+  renderWeeks();          // ← SIEMPRE se pintan las 16 semanas
+  setupAuthListeners();   // auth (si no hay supabase, no rompe)
+  checkSession();         // activa/desactiva admin-on
+  loadAvatar();           // intenta avatar de Storage
+  injectUploadPanel();    // UI de subida (solo visible en modo admin)
 });
-
-
-
