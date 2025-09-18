@@ -5,26 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Portafolio | Aldair</title>
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-  <!-- Bootstrap 5 + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-
-  <!-- Estilos -->
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg navbar-dark sticky-top glass-nav">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="#perfil">
-        <span class="brand-dot me-2"></span>Aldair
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain" aria-controls="navMain" aria-expanded="false" aria-label="Toggle navigation">
+      <a class="navbar-brand fw-bold" href="#perfil"><span class="brand-dot me-2"></span>Aldair</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navMain">
@@ -34,22 +27,13 @@
           <li class="nav-item"><a class="nav-link" href="#portafolio">Portafolio</a></li>
           <li class="nav-item"><a class="nav-link" href="#habilidades">Habilidades</a></li>
           <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
-
-          <!-- Acceso admin -->
-          <li class="nav-item">
-            <a id="adminOpen" class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#adminModal">
-              <i class="bi bi-person-lock me-1"></i><span id="adminStateText">Administrador</span>
-            </a>
-          </li>
-          <li class="nav-item" data-admin-only>
-            <a id="adminLogout" class="nav-link" href="#"><i class="bi bi-box-arrow-right me-1"></i>Salir</a>
-          </li>
+          <li class="nav-item"><a id="adminOpen" class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#adminModal"><i class="bi bi-person-lock me-1"></i><span id="adminStateText">Administrador</span></a></li>
+          <li class="nav-item" data-admin-only><a id="adminLogout" class="nav-link" href="#"><i class="bi bi-box-arrow-right me-1"></i>Salir</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- PERFIL -->
   <section id="perfil" class="py-5 hero-section">
     <div class="container">
       <div class="row align-items-center g-5">
@@ -64,7 +48,7 @@
           <p class="lead text-muted-2 mb-3">Soy <span class="fw-semibold">Ingeniero en Sistemas</span></p>
           <p class="mb-4">Bienvenido(a) a mi espacio. Comparto proyectos, habilidades y experiencia en desarrollo de software y tecnología.</p>
           <div class="d-flex flex-wrap gap-3">
-            <a href="#semanas" class="btn btn-primary btn-lg px-4"><i class="bi bi-calendar-week me-2"></i> Ver Semanas</a>
+            <a href="#semanas" class="btn btn-accent btn-lg px-4"><i class="bi bi-calendar-week me-2"></i> Ver Semanas</a>
             <a href="#contacto" class="btn btn-outline-light btn-lg px-4"><i class="bi bi-envelope-at me-2"></i>Contacto</a>
           </div>
         </div>
@@ -72,7 +56,6 @@
     </div>
   </section>
 
-  <!-- SEMANAS (JS inyecta 16 tarjetas; cada “Ver detalle” enlaza a week.html?week=N) -->
   <section id="semanas" class="py-5 section-alt">
     <div class="container">
       <div class="d-flex align-items-center justify-content-between mb-4">
@@ -83,6 +66,7 @@
     </div>
   </section>
 
+  <!-- … (Portafolio / Habilidades / Contacto / Admin iguales que antes) … -->
   <!-- PORTAFOLIO -->
   <section id="portafolio" class="py-5">
     <div class="container">
@@ -167,26 +151,20 @@
   </footer>
 
   <!-- Modal Login -->
-  <div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
+  <div class="modal fade" id="adminModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <form class="modal-content" id="adminForm">
-        <div class="modal-header">
-          <h5 class="modal-title" id="adminModalLabel"><i class="bi bi-person-lock me-2"></i>Entrar como Administrador</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-        </div>
+        <div class="modal-header"><h5 class="modal-title"><i class="bi bi-person-lock me-2"></i>Entrar como Administrador</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
         <div class="modal-body">
-          <div class="mb-3"><label class="form-label">Email</label><input type="email" class="form-control" id="adminUser" placeholder="admin@correo.com" required></div>
-          <div class="mb-3"><label class="form-label">Contraseña</label><input type="password" class="form-control" id="adminPass" placeholder="•••••••" required></div>
+          <div class="mb-3"><label class="form-label">Email</label><input type="email" class="form-control" id="adminUser" required></div>
+          <div class="mb-3"><label class="form-label">Contraseña</label><input type="password" class="form-control" id="adminPass" required></div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-primary">Entrar</button>
-        </div>
+        <div class="modal-footer"><button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Entrar</button></div>
       </form>
     </div>
   </div>
 
-  <!-- SCRIPTS: Supabase antes de app.js -->
+  <!-- Scripts -->
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="app.js"></script>
