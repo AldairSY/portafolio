@@ -4,7 +4,7 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const BUCKET = "portafolio";
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-/* ====== DATOS 16 SEMANAS ====== */
+/* ====== 16 SEMANAS ====== */
 const WEEKS = [
   { n: 1,  title: "Introducción y alcance",        state: "Planificado", text: "Objetivos del curso, metodología, herramientas y repositorios." },
   { n: 2,  title: "Levantamiento de requerimientos",state: "Planificado", text: "Entrevistas, historias de usuario, criterios de aceptación." },
@@ -27,31 +27,54 @@ const WEEKS = [
 /* ====== HELPERS ====== */
 const qs = (s,c=document)=>c.querySelector(s);
 
-/* ====== ADMIN MODE ====== */
+/* ====== ADMIN ====== */
 function setAdminMode(on, label = "Admin"){
   document.body.classList.toggle("admin-on", !!on);
   const t = qs("#adminStateText");
   if (t) t.textContent = on ? label : "Administrador";
 }
 
-/* ====== AVATAR: SUPABASE → FALLBACK LOCAL ====== */
+/* ====== AVATAR con fallback seguro ======
+   - Muestra primero aldair.jpg local
+   - Si hay archivo en Supabase (perfil/aldair.jpg), lo prueba y lo usa
+========================================= */
+function probeImage(url){
+  return new Promise(res=>{
+    const im = new Image();
+    im.onload = ()=>res(true);
+    im.onerror = ()=>res(false);
+    im.src = url;
+  });
+}
 async function loadAvatar(){
   const img = qs(".perfil-img");
   if (!img) return;
-  const path = "perfil/aldair.jpg"; // en tu bucket "portafolio"
-  try {
-    // 1) ¿es público?
-    const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
-    if (data?.publicUrl){ img.src = data.publicUrl; return; }
-    // 2) si no es público, signed URL (1h)
-    const signed = await supabase.storage.from(BUCKET).createSignedUrl(path, 3600);
-    if (signed.data?.signedUrl){ img.src = signed.data.signedUrl; return; }
-  } catch(_) { /* sigue al fallback */ }
-  // 3) fallback local (tu aldair.jpg del repo)
+
+  // 1) Siempre mostramos el local de entrada (ya debe existir junto al index.html)
   img.src = "aldair.jpg";
+
+  try {
+    const path = "perfil/aldair.jpg";
+    // 2) Intentamos primero signed URL (sirve con bucket privado)
+    const signed = await supabase.storage.from(BUCKET).createSignedUrl(path, 3600);
+    if (signed.data?.signedUrl){
+      const ok = await probeImage(signed.data.signedUrl);
+      if (ok){ img.src = signed.data.signedUrl; return; }
+    }
+
+    // 3) Si no hay signed (o falló), probamos publicUrl SOLO si realmente sirve
+    const pub = supabase.storage.from(BUCKET).getPublicUrl(path).data?.publicUrl;
+    if (pub){
+      const ok = await probeImage(pub);
+      if (ok){ img.src = pub; return; }
+    }
+  } catch (_) {
+    // ignoramos y mantenemos el local
+  }
+  // Si nada funcionó, queda el local sin romper nada.
 }
 
-/* ====== RENDER 16 SEMANAS ====== */
+/* ====== RENDER WEEKS ====== */
 function renderWeeks(){
   const row = qs("#semanas .row");
   row.innerHTML = "";
@@ -104,7 +127,7 @@ async function initAuth(){
 /* ====== INIT ====== */
 document.addEventListener("DOMContentLoaded", ()=>{
   renderWeeks();
-  loadAvatar();            // intenta Supabase y si no, aldair.jpg local
+  loadAvatar();            // ← ahora sí, seguro
   initAuth();
   const y = qs("#year"); if (y) y.textContent = new Date().getFullYear();
 });
