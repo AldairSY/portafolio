@@ -304,7 +304,6 @@ footer{ color: var(--muted-2); }
   font-weight: 400;    /* más elegante */
   max-width: 700px;    /* no tan ancho */
 }
-
 /* ===== Hero asimétrico único ===== */
 .hero-uniq{
   position: relative;
@@ -413,5 +412,5 @@ footer{ color: var(--muted-2); }
 }
 .btn-accent:hover{ filter: brightness(.93); }
 
-
+ 
 
