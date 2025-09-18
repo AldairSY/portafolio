@@ -3,130 +3,625 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Portafolio </title>
+  <title>Portafolio | Aldair</title>
+
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
-  <!-- Supabase JS v2 -->
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+  <!-- Bootstrap 5 + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Estilos propios -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand"><span class="dot"></span> Portafolio</div>
-    <nav class="nav">
-      <a class="active" href="#semanas">Semanas</a>
-      <a href="#acerca">Acerca</a>
-      <a href="#contacto">Contacto</a>
-    </nav>
-    <div class="auth">
-      <span id="user-email" class="user-email"></span>
-      <button id="btn-login" class="btn">Iniciar sesión</button>
-      <button id="btn-logout" class="btn btn-outline" style="display:none;">Cerrar sesión</button>
-    </div>
-  </header>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top glass-nav">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#perfil"><span class="brand-dot me-2"></span>Aldair</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain" aria-controls="navMain" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMain">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link active" href="#perfil">Perfil</a></li>
+          <li class="nav-item"><a class="nav-link" href="#semanas">Semanas</a></li>
+          <li class="nav-item"><a class="nav-link" href="#portafolio">Portafolio</a></li>
+          <li class="nav-item"><a class="nav-link" href="#habilidades">Habilidades</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
 
-  <section class="hero">
-    <div class="hero-inner">
-      <h1>Portafolio de <span class="grad">Arquitectura de Software</span></h1>
-      <p>Aldair Sanchez Romero </p>
-      <a class="btn" href="#semanas">Empezar</a>
+          <!-- Acceso admin -->
+          <li class="nav-item">
+            <a id="adminOpen" class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#adminModal">
+              <i class="bi bi-person-lock me-1"></i><span id="adminStateText">Administrador</span>
+            </a>
+          </li>
+          <li class="nav-item" data-admin-only>
+            <a id="adminLogout" class="nav-link" href="#"><i class="bi bi-box-arrow-right me-1"></i>Salir</a>
+          </li>
+        </ul>
+      </div>
     </div>
-    <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
-  </section>
+  </nav>
 
-  <main class="container">
-    <!-- Semanas (cuadraditos) -->
-    <section id="semanas">
-      <div class="head-row">
-        <h2 class="section-title">Semanas</h2>
-        <div class="row">
-          <button id="btn-add-week" class="btn" style="display:none;">➕ Nueva semana</button>
+  <!-- PERFIL / HERO -->
+  <section id="perfil" class="py-5 hero-section">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <!-- Foto oval -->
+        <div class="col-12 col-md-5 d-flex justify-content-center">
+          <figure class="oval-frame shadow-lg">
+            <img src="aldair.jpg" class="img-fluid" alt="Foto de Aldair">
+          </figure>
+        </div>
+
+        <!-- Texto -->
+        <div class="col-12 col-md-7">
+          <p class="text-accent mb-1 fw-semibold tracking">Perfil</p>
+          <h1 class="display-5 fw-bold lh-1 mb-2">
+            Hola, soy <span class="text-gradient">Aldair</span>
+          </h1>
+          <p class="lead text-muted-2 mb-3">Soy <span class="fw-semibold">Ingeniero en Sistemas</span></p>
+
+          <p class="mb-4">
+            Bienvenido(a) a mi espacio. Comparto proyectos, habilidades y experiencia
+            en desarrollo de software y tecnología. Me enfoco en soluciones limpias, útiles y bien presentadas.
+          </p>
+
+          <div class="d-flex flex-wrap gap-3">
+            <a href="#semanas" class="btn btn-primary btn-lg px-4">
+              <i class="bi bi-calendar-week me-2"></i> Ver Semanas
+            </a>
+            <a href="#contacto" class="btn btn-outline-light btn-lg px-4">
+              <i class="bi bi-envelope-at me-2"></i> Contacto
+            </a>
+          </div>
+
+          <div class="mt-4 d-flex gap-3 social">
+            <a class="link-light" href="https://github.com/tuusuario" target="_blank" rel="noopener" aria-label="GitHub">
+              <i class="bi bi-github"></i>
+            </a>
+            <a class="link-light" href="https://www.linkedin.com/in/tuusuario" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <i class="bi bi-linkedin"></i>
+            </a>
+            <a class="link-light" href="mailto:tuemail@correo.com" aria-label="Email">
+              <i class="bi bi-envelope-fill"></i>
+            </a>
+          </div>
         </div>
       </div>
-      <div id="weeks-grid" class="weeks-grid"></div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Panel de archivos -->
-    <section id="panel" class="panel">
-      <div class="panel-head">
-        <h3 id="panel-title">Selecciona una semana</h3>
-        <label class="uploader" id="uploader" style="display:none;">
-          <input type="file" id="file-input" />
-          <span>⬆️ Subir archivo</span>
-        </label>
+  <!-- SEMANAS (1–16) -->
+  <section id="semanas" class="py-5 section-alt">
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h2 class="h1 m-0">Semanas</h2>
+        <span class="section-tag">Plan 16 semanas</span>
       </div>
-      <div id="items-grid" class="grid"></div>
-    </section>
 
-    <section id="acerca" class="info">
-      <h3>Acerca</h3>
-      <p class="muted">Soy Aldair Sanchez Romero, estudiante de Ingeniería de Sistemas. 
-        Este portafolio ha sido creado con el objetivo de organizar y compartir mis trabajos, 
-        proyectos y materiales de estudio de forma ordenada.
-        Aquí podrás encontrar información estructurada por semanas, 
-        lo que facilita el acceso a los contenidos y refleja mi avance en la carrera.<code></code>.</p>
-    </section>
+      <div class="row g-4">
+        <!-- Repite 16 tarjetas -->
+        <!-- Semana 1 -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card week-card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="week-badge">Semana 1</span>
+                <small class="text-muted-2">Estado: Planificado</small>
+              </div>
+              <h5 class="card-title">Introducción y alcance</h5>
+              <p class="card-text">Objetivos del curso, metodología, herramientas y repositorios de trabajo.</p>
+              <div class="d-flex gap-2">
+                <a href="#" class="btn btn-sm btn-primary"><i class="bi bi-eye me-1"></i>Ver detalle</a>
+                <a href="#" class="btn btn-sm btn-outline-light"><i class="bi bi-paperclip me-1"></i>Adjuntos</a>
+                <a href="#" class="btn btn-sm btn-warning" data-admin-only><i class="bi bi-pencil-square me-1"></i>Editar</a>
+              </div>
+            </div>
+          </div>
+        </div>
 
-<section id="contacto" class="info">
-  <h3>Contacto</h3>
+        <!-- Semana 2 -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card week-card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="week-badge">Semana 2</span>
+                <small class="text-muted-2">Estado: Planificado</small>
+              </div>
+              <h5 class="card-title">Levantamiento de requerimientos</h5>
+              <p class="card-text">Entrevistas, historias de usuario y criterios de aceptación.</p>
+              <div class="d-flex gap-2">
+                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
+                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
+                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
+              </div>
+            </div>
+          </div>
+        </div>
 
-  <div class="contact-card">
-    <div class="contact-left">
-      <div class="avatar-circle"></div>
-      <div>
-        <h4 class="contact-name">Aldair Sanchez Romero</h4>
-        <p class="muted">Estudiante de Ingeniería de Sistemas</p>
+        <!-- Semana 3 -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card week-card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="week-badge">Semana 3</span>
+                <small class="text-muted-2">Estado: Planificado</small>
+              </div>
+              <h5 class="card-title">Modelado de procesos (BPMN)</h5>
+              <p class="card-text">Diagramas AS-IS / TO-BE y priorización de mejoras.</p>
+              <div class="d-flex gap-2">
+                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
+                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
+                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Semana 4 -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card week-card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="week-badge">Semana 4</span>
+                <small class="text-muted-2">Estado: Planificado</small>
+              </div>
+              <h5 class="card-title">Arquitectura (C4 + vistas)</h5>
+              <p class="card-text">Contexto, contenedores y componentes. Decisiones ADR.</p>
+              <div class="d-flex gap-2">
+                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
+                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
+                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Semana 5 -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card week-card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="week-badge">Semana 5</span>
+                <small class="text-muted-2">Estado: Planificado</small>
+              </div>
+              <h5 class="card-title">Diseño de datos (MER → SQL)</h5>
+              <p class="card-text">Entidades, relaciones y normalización. Script base.</p>
+              <div class="d-flex gap-2">
+                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
+                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
+                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Semana 6 -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card week-card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="week-badge">Semana 6</span>
+                <small class="text-muted-2">Estado: Planificado</small>
+              </div>
+              <h5 class="card-title">Front-end base</h5>
+              <p class="card-text">Componentes Bootstrap y patrones de UI accesibles.</p>
+              <div class="d-flex gap-2">
+                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
+                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
+                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Semana 7 -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card week-card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="week-badge">Semana 7</span>
+                <small class="text-muted-2">Estado: Planificado</small>
+              </div>
+              <h5 class="card-title">Back-end base</h5>
+              <p class="card-text">APIs REST, controladores y validaciones.</p>
+              <div class="d-flex gap-2">
+                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
+                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
+                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Semana 8 -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card week-card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="week-badge">Semana 8</span>
+                <small class="text-muted-2">Estado: Parcial</small>
+              </div>
+              <h5 class="card-title">Autenticación</h5>
+              <p class="card-text">Sesiones, JWT / Supabase Auth y roles.</p>
+              <div class="d-flex gap-2">
+                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
+                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
+                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Semana 9 -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card week-card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="week-badge">Semana 9</span>
+                <small class="text-muted-2">Estado: Parcial</small>
+              </div>
+              <h5 class="card-title">Integración de datos</h5>
+              <p class="card-text">Persistencia, migraciones y seeds.</p>
+              <div class="d-flex gap-2">
+                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
+                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
+                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Semana 10 -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card week-card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="week-badge">Semana 10</span>
+                <small class="text-muted-2">Estado: Parcial</small>
+              </div>
+              <h5 class="card-title">Pruebas</h5>
+              <p class="card-text">Unitarias y de integración. Cobertura mínima.</p>
+              <div class="d-flex gap-2">
+                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
+                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
+                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Semana 11 -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card week-card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="week-badge">Semana 11</span>
+                <small class="text-muted-2">Estado: Parcial</small>
+              </div>
+              <h5 class="card-title">Seguridad</h5>
+              <p class="card-text">OWASP Top 10, roles y permisos.</p>
+              <div class="d-flex gap-2">
+                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
+                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
+                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Semana 12 -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card week-card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="week-badge">Semana 12</span>
+                <small class="text-muted-2">Estado: Parcial</small>
+              </div>
+              <h5 class="card-title">DevOps</h5>
+              <p class="card-text">CI/CD, contenedores y despliegue.</p>
+              <div class="d-flex gap-2">
+                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
+                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
+                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Semana 13 -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card week-card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="week-badge">Semana 13</span>
+                <small class="text-muted-2">Estado: Parcial</small>
+              </div>
+              <h5 class="card-title">BI & Dashboards</h5>
+              <p class="card-text">Métricas, KPIs y visualizaciones.</p>
+              <div class="d-flex gap-2">
+                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
+                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
+                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Semana 14 -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card week-card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="week-badge">Semana 14</span>
+                <small class="text-muted-2">Estado: Parcial</small>
+              </div>
+              <h5 class="card-title">Ajustes finales</h5>
+              <p class="card-text">Refactor, performance y accesibilidad.</p>
+              <div class="d-flex gap-2">
+                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
+                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
+                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Semana 15 -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card week-card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="week-badge">Semana 15</span>
+                <small class="text-muted-2">Estado: Revisión</small>
+              </div>
+              <h5 class="card-title">Ensayo de sustentación</h5>
+              <p class="card-text">Diapositivas, demos y Q&A.</p>
+              <div class="d-flex gap-2">
+                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
+                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
+                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Semana 16 -->
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card week-card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="week-badge">Semana 16</span>
+                <small class="text-muted-2">Estado: Final</small>
+              </div>
+              <h5 class="card-title">Entrega final</h5>
+              <p class="card-text">Producto terminado, documentación y retroalimentación.</p>
+              <div class="d-flex gap-2">
+                <a href="#" class="btn btn-sm btn-primary">Ver detalle</a>
+                <a href="#" class="btn btn-sm btn-outline-light">Adjuntos</a>
+                <a href="#" class="btn btn-sm btn-warning" data-admin-only>Editar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /row -->
+    </div>
+  </section>
+
+  <!-- PORTAFOLIO (placeholder bonito) -->
+  <section id="portafolio" class="py-5">
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h2 class="h1 m-0">Portafolio</h2>
+        <span class="section-tag">Proyectos</span>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card project-card h-100">
+            <div class="card-body">
+              <h5 class="card-title">Sistema de Inventario</h5>
+              <p class="card-text">CRUD, autenticación y reportes PDF. Stack: Django + PostgreSQL.</p>
+              <a href="#" class="btn btn-sm btn-primary">Ver</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card project-card h-100">
+            <div class="card-body">
+              <h5 class="card-title">Dashboard BI</h5>
+              <p class="card-text">KPIs y gráficos. Stack: Python + Plotly.</p>
+              <a href="#" class="btn btn-sm btn-primary">Ver</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="card project-card h-100">
+            <div class="card-body">
+              <h5 class="card-title">App Móvil</h5>
+              <p class="card-text">Prototipo offline-first. Stack: Flutter + Supabase.</p>
+              <a href="#" class="btn btn-sm btn-primary">Ver</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+  </section>
 
-    <div class="contact-right">
-      <a class="icon-btn" 
-         href="https://wa.me/51940144021?text=Hola%20Aldair%2C%20vi%20tu%20portafolio." 
-         target="_blank" rel="noopener" aria-label="WhatsApp">
-        <!-- ícono WhatsApp (SVG) -->
-        <svg viewBox="0 0 32 32" width="20" height="20" aria-hidden="true">
-          <path d="M19.1 17.6c-.3-.1-1-.5-1.1-.6s-.3-.1-.4.1-.5.6-.6.7-.2.1-.4 0c-.3-.1-1.1-.4-2.1-1.3-.8-.7-1.3-1.6-1.4-1.9s0-.3.1-.4c.1-.1.3-.3.4-.4.1-.1.1-.2.2-.3s0-.2 0-.3 0-.3 0-.4c0-.1-.1-.3-.2-.4s-.4-.4-.5-.5-.3-.1-.4-.1h-.3c-.1 0-.4.1-.6.3s-.8.8-.8 2 .8 2.3.9 2.5c.1.2 1.6 2.5 3.9 3.4 2.3.9 2.3.6 2.7.6s1.3-.5 1.5-1.1.2-1 .1-1.1c-.2-.1-.4-.2-.7-.3zM16 3C9.4 3 4 8.4 4 15c0 2.6.8 5 2.2 7l-1.5 5.5 5.7-1.5C12.6 27.2 14.3 27.6 16 27.6 22.6 27.6 28 22.2 28 15.6S22.6 3 16 3zm0 22.6c-1.5 0-3-.4-4.3-1.1l-.3-.2-3.4.9.9-3.3-.2-.3C7.8 20 7.3 17.8 7.3 15.6 7.3 10 11.8 5.6 17.4 5.6S27.4 10 27.4 15.6 22 25.6 16 25.6z" fill="currentColor"/>
-        </svg>
-        <span>WhatsApp</span>
-      </a>
+  <!-- HABILIDADES -->
+  <section id="habilidades" class="py-5">
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h2 class="h1 m-0">Habilidades</h2>
+        <span class="section-tag">Tech</span>
+      </div>
+      <div class="row g-3">
+        <div class="col-6 col-md-3"><div class="skill">Python</div></div>
+        <div class="col-6 col-md-3"><div class="skill">Django</div></div>
+        <div class="col-6 col-md-3"><div class="skill">PostgreSQL</div></div>
+        <div class="col-6 col-md-3"><div class="skill">Docker</div></div>
+        <div class="col-6 col-md-3"><div class="skill">HTML/CSS/JS</div></div>
+        <div class="col-6 col-md-3"><div class="skill">Bootstrap</div></div>
+        <div class="col-6 col-md-3"><div class="skill">Git/GitHub</div></div>
+        <div class="col-6 col-md-3"><div class="skill">Supabase</div></div>
+      </div>
+    </div>
+  </section>
 
-      <a class="icon-btn" 
-         href="mailto:Sanchezaldair363@gmail.com?subject=Contacto%20desde%20el%20portafolio" 
-         aria-label="Correo">
-        <!-- ícono Correo (SVG) -->
-        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-          <path d="M2 6.5A2.5 2.5 0 0 1 4.5 4h15A2.5 2.5 0 0 1 22 6.5v11A2.5 2.5 0 0 1 19.5 20h-15A2.5 2.5 0 0 1 2 17.5v-11Zm2.3-.5 7.2 5.2L18.7 6H4.3Zm15.2 2.1-7.5 5.4a1.5 1.5 0 0 1-1.8 0L2.7 8.1V17.5c0 .6.4 1 1 1h15.8c.6 0 1-.4 1-1V8.1Z" fill="currentColor"/>
-        </svg>
-        <span>Correo</span>
-      </a>
+  <!-- CONTACTO -->
+  <section id="contacto" class="py-5 section-alt">
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h2 class="h1 m-0">Contacto</h2>
+        <span class="section-tag">Hablemos</span>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="contact-card p-4">
+            <p class="mb-1 text-muted-2">Correo</p>
+            <a class="fw-semibold link-underline-opacity-0" href="mailto:tuemail@correo.com">
+              tuemail@correo.com
+            </a>
+            <hr class="my-4">
+            <p class="mb-1 text-muted-2">LinkedIn</p>
+            <a class="fw-semibold link-underline-opacity-0" href="https://www.linkedin.com/in/tuusuario" target="_blank" rel="noopener">
+              linkedin.com/in/tuusuario
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <form class="contact-card p-4">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Nombre</label>
+                <input type="text" class="form-control form-control-lg" placeholder="Tu nombre">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control form-control-lg" placeholder="tu@correo.com">
+              </div>
+              <div class="col-12">
+                <label class="form-label">Mensaje</label>
+                <textarea rows="4" class="form-control form-control-lg" placeholder="Cuéntame sobre tu proyecto"></textarea>
+              </div>
+              <div class="col-12">
+                <button type="button" class="btn btn-primary btn-lg">
+                  <i class="bi bi-send-fill me-2"></i>Enviar
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PANEL ADMIN (visible solo si hay sesión admin) -->
+  <section id="admin" class="py-5" data-admin-only>
+    <div class="container">
+      <div class="d-flex align-items-center justify-content-between mb-4">
+        <h2 class="h1 m-0">Panel de Administración</h2>
+        <span class="section-tag">Privado</span>
+      </div>
+      <p class="text-muted-2 mb-4">Ahora puedes ver y usar botones “Editar” en Semanas. Integra aquí tu lógica real (Supabase, etc.).</p>
+
+      <div class="alert alert-info">
+        <i class="bi bi-info-circle me-2"></i>
+        Esta sección solo aparece para administradores (señal: clase <code>admin-on</code> en <code>&lt;body&gt;</code>).
+      </div>
+    </div>
+  </section>
+
+  <footer class="py-4 border-top border-dark-subtle">
+    <div class="container small text-center text-muted-2">
+      © <span id="year"></span> Aldair — Portafolio.
+    </div>
+  </footer>
+
+  <!-- Modal de Acceso Admin -->
+  <div class="modal fade" id="adminModal" tabindex="-1" aria-labelledby="adminModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content" id="adminForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="adminModalLabel"><i class="bi bi-person-lock me-2"></i>Entrar como Administrador</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Usuario</label>
+            <input type="text" class="form-control" id="adminUser" placeholder="admin" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="adminPass" placeholder="•••••••" required>
+          </div>
+          <div class="form-text">Demo local (luego lo puedes conectar a Supabase). Usuario: <b>admin</b> — Clave: <b>admin123</b></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Entrar</button>
+        </div>
+      </form>
     </div>
   </div>
 
-</section>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Modal Auth -->
-  <dialog id="auth-modal">
-    <form method="dialog" class="auth-form" id="auth-form">
-      <h3>Iniciar sesión</h3>
-      <label>Correo <input type="email" id="auth-email" required placeholder="tu@correo.com" /></label>
-      <label>Contraseña <input type="password" id="auth-pass" required placeholder="********" /></label>
-      <div class="row">
-  <button id="btn-email-login" class="btn" value="close">Entrar</button>
-</div>
-<button class="btn btn-outline" type="button" id="btn-cancel">Cancelar</button>
-
-      <p class="hint">Usa cualquier correo. La contraseña que pediste: <b>solo usuario premiun</b>.</p>
-    </form>
-  </dialog>
-
+  <!-- Tu JS (NO modificado) -->
   <script src="app.js"></script>
+
+  <!-- Script mínimo para sesión admin local (sin tocar app.js) -->
+  <script>
+    const ADMIN_USER = "admin";
+    const ADMIN_PASS = "admin123";
+
+    const yearEl = document.getElementById('year');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    function setAdminMode(on){
+      if(on){
+        document.body.classList.add('admin-on');
+        localStorage.setItem('isAdmin','1');
+        document.getElementById('adminStateText').textContent = 'Admin';
+      }else{
+        document.body.classList.remove('admin-on');
+        localStorage.removeItem('isAdmin');
+        document.getElementById('adminStateText').textContent = 'Administrador';
+      }
+    }
+
+    // Restaurar estado
+    setAdminMode(localStorage.getItem('isAdmin') === '1');
+
+    // Login
+    document.getElementById('adminForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const u = document.getElementById('adminUser').value.trim();
+      const p = document.getElementById('adminPass').value;
+      if(u === ADMIN_USER && p === ADMIN_PASS){
+        setAdminMode(true);
+        const modal = bootstrap.Modal.getInstance(document.getElementById('adminModal'));
+        modal.hide();
+      }else{
+        alert('Credenciales incorrectas');
+      }
+    });
+
+    // Logout
+    document.getElementById('adminLogout').addEventListener('click', (e)=>{
+      e.preventDefault();
+      setAdminMode(false);
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="app.js"></script>
+
 </body>
 </html>
-
-
-
-
-
-
-
