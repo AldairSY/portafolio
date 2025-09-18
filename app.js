@@ -1,10 +1,11 @@
-// ===== Portada con botón "Ver detalle" en color accent =====
+/* ====== CONFIG SUPABASE ====== */
 const SUPABASE_URL = "https://feiygnfxolxetwfrjfsh.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlaXlnbmZ4b2x4ZXR3ZnJqZnNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcxOTU1MjAsImV4cCI6MjA3Mjc3MTUyMH0.ge5Ciw_9MvIGR4y8JznteQV8sICcCBzivEapGxWnFbI";
 const BUCKET = "portafolio";
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-const DEFAULT_WEEKS = [
+/* ====== DATOS 16 SEMANAS ====== */
+const WEEKS = [
   { n: 1,  title: "Introducción y alcance",        state: "Planificado", text: "Objetivos del curso, metodología, herramientas y repositorios." },
   { n: 2,  title: "Levantamiento de requerimientos",state: "Planificado", text: "Entrevistas, historias de usuario, criterios de aceptación." },
   { n: 3,  title: "Modelado de procesos (BPMN)",    state: "Planificado", text: "Diagramas AS-IS / TO-BE y priorización de mejoras." },
@@ -23,17 +24,38 @@ const DEFAULT_WEEKS = [
   { n: 16, title: "Entrega final",                  state: "Final",       text: "Producto terminado, documentación y retroalimentación." },
 ];
 
-const qs = (s, c=document)=>c.querySelector(s);
+/* ====== HELPERS ====== */
+const qs = (s,c=document)=>c.querySelector(s);
 
-function setAdminMode(on, label="Admin"){
+/* ====== ADMIN MODE ====== */
+function setAdminMode(on, label = "Admin"){
   document.body.classList.toggle("admin-on", !!on);
-  const t = qs("#adminStateText"); if (t) t.textContent = on ? label : "Administrador";
+  const t = qs("#adminStateText");
+  if (t) t.textContent = on ? label : "Administrador";
 }
 
+/* ====== AVATAR: SUPABASE → FALLBACK LOCAL ====== */
+async function loadAvatar(){
+  const img = qs(".perfil-img");
+  if (!img) return;
+  const path = "perfil/aldair.jpg"; // en tu bucket "portafolio"
+  try {
+    // 1) ¿es público?
+    const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
+    if (data?.publicUrl){ img.src = data.publicUrl; return; }
+    // 2) si no es público, signed URL (1h)
+    const signed = await supabase.storage.from(BUCKET).createSignedUrl(path, 3600);
+    if (signed.data?.signedUrl){ img.src = signed.data.signedUrl; return; }
+  } catch(_) { /* sigue al fallback */ }
+  // 3) fallback local (tu aldair.jpg del repo)
+  img.src = "aldair.jpg";
+}
+
+/* ====== RENDER 16 SEMANAS ====== */
 function renderWeeks(){
   const row = qs("#semanas .row");
   row.innerHTML = "";
-  DEFAULT_WEEKS.forEach(w=>{
+  WEEKS.forEach(w=>{
     const col = document.createElement("div");
     col.className = "col-12 col-md-6 col-lg-4";
     col.innerHTML = `
@@ -59,24 +81,12 @@ function renderWeeks(){
   });
 }
 
-async function loadAvatar(){
-  const img = qs(".perfil-img"); if (!img) return;
-  const path = "perfil/aldair.jpg";
-  try {
-    const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
-    if (data?.publicUrl) { img.src = data.publicUrl; return; }
-    const signed = await supabase.storage.from(BUCKET).createSignedUrl(path, 3600);
-    if (signed.data?.signedUrl) { img.src = signed.data.signedUrl; return; }
-  } catch {}
-  img.src = "aldair.jpg";
-}
-
-async function checkSession(){
+/* ====== AUTH ====== */
+async function initAuth(){
   const { data:{ session } } = await supabase.auth.getSession();
   setAdminMode(!!session, session?.user?.email || "Admin");
   supabase.auth.onAuthStateChange((_e, s)=> setAdminMode(!!s, s?.user?.email || "Admin"));
-}
-function setupAuth(){
+
   qs("#adminForm")?.addEventListener("submit", async (e)=>{
     e.preventDefault();
     const email = qs("#adminUser").value.trim();
@@ -85,15 +95,16 @@ function setupAuth(){
     if (error) alert("Error: "+error.message);
     else (bootstrap.Modal.getInstance(qs("#adminModal"))||new bootstrap.Modal(qs("#adminModal"))).hide();
   });
+
   qs("#adminLogout")?.addEventListener("click", async (e)=>{
     e.preventDefault(); await supabase.auth.signOut(); setAdminMode(false);
   });
 }
 
+/* ====== INIT ====== */
 document.addEventListener("DOMContentLoaded", ()=>{
   renderWeeks();
-  loadAvatar();
-  checkSession();
-  setupAuth();
+  loadAvatar();            // intenta Supabase y si no, aldair.jpg local
+  initAuth();
   const y = qs("#year"); if (y) y.textContent = new Date().getFullYear();
 });
