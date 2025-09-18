@@ -296,5 +296,14 @@ footer{ color: var(--muted-2); }
   display: block;
   opacity: 1 !important;
 }
+/* Texto de introducción */
+.intro-text {
+  font-size: 1.3rem;   /* más grande */
+  line-height: 1.8;    /* más aire */
+  color: #e4e7ec;      /* más contraste */
+  font-weight: 400;    /* más elegante */
+  max-width: 700px;    /* no tan ancho */
+}
+
 
 
