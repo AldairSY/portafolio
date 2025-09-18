@@ -131,38 +131,51 @@ document.addEventListener("DOMContentLoaded", ()=>{
   initAuth();
   const y = qs("#year"); if (y) y.textContent = new Date().getFullYear();
 });
-// ====== FORMULARIO DE CONTACTO ======
-const contactForm = document.getElementById("contactForm");
-
-if (contactForm) {
-  contactForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const name = document.getElementById("contactName").value.trim();
-    const email = document.getElementById("contactEmail").value.trim();
-    const message = document.getElementById("contactMessage").value.trim();
-
-    if (!name || !email || !message) {
-      alert("Por favor, completa todos los campos.");
-      return;
-    }
-
-    try {
-      const { error } = await supabase.from("contact_messages").insert([
-        { name, email, message }
-      ]);
-
-      if (error) {
-        console.error("Error al enviar mensaje:", error.message);
-        alert("Hubo un problema al enviar tu mensaje. Intenta de nuevo.");
-      } else {
-        alert("✅ ¡Tu mensaje fue enviado con éxito!");
-        contactForm.reset();
-      }
-    } catch (err) {
-      console.error("Error inesperado:", err);
-      alert("Ocurrió un error inesperado.");
-    }
-  });
+/* ========= CONTACTO (guardar en Supabase) ========= */
+function cAlert(type, text){
+  const box = document.getElementById("cAlert");
+  if (!box) return;
+  box.className = `alert ${type}`;
+  box.textContent = text;
+  box.classList.remove("d-none");
 }
+function cHide(){ const box=document.getElementById("cAlert"); if(box){ box.classList.add("d-none"); box.textContent=""; } }
+function isEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+async function handleContactSubmit(e){
+  e.preventDefault();
+  cHide();
+
+  const name  = document.getElementById("cName")?.value.trim();
+  const email = document.getElementById("cEmail")?.value.trim();
+  const msg   = document.getElementById("cMsg")?.value.trim();
+
+  if (!name || !email || !msg){
+    cAlert("alert-warning","Completa todos los campos.");
+    return;
+  }
+  if (!isEmail(email)){
+    cAlert("alert-warning","Ingresa un email válido.");
+    return;
+  }
+
+  // Inserta en la tabla contact_messages
+  const { error } = await supabase.from("contact_messages")
+    .insert({ name, email, message: msg });
+
+  if (error){
+    console.error("[contact_messages] insert error:", error);
+    cAlert("alert-danger","No se pudo enviar: " + error.message);
+  } else {
+    cAlert("alert-success","✅ ¡Mensaje enviado! Gracias por escribirme.");
+    document.getElementById("contactForm")?.reset();
+  }
+}
+
+// enganche del submit cuando cargue el DOM
+document.addEventListener("DOMContentLoaded", ()=>{
+  const form = document.getElementById("contactForm");
+  if (form) form.addEventListener("submit", handleContactSubmit);
+});
+
 
