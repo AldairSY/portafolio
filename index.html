@@ -40,54 +40,57 @@
       </div>
     </div>
   </nav>
-  <!-- PERFIL — Hero asimétrico (foto en esquina + contenido al lado) -->
-<section id="perfil" class="hero-uniq">
-  <div class="container-xxl hero-grid">
-    <!-- Foto / Lado izquierdo -->
-    <aside class="avatar-side">
-      <div class="avatar-wrap">
-        <img src="/portafolio/aldair.jpg" alt="Aldair" />
-        <span class="chip-name">Aldair</span>
-      </div>
 
-      <ul class="socials">
-        <li><a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="bi bi-facebook"></i></a></li>
-        <li><a href="https://www.linkedin.com" target="_blank" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a></li>
-        <li><a href="https://github.com" target="_blank" aria-label="GitHub"><i class="bi bi-github"></i></a></li>
-        <li><a href="https://wa.me/51999999999" target="_blank" aria-label="WhatsApp"><i class="bi bi-whatsapp"></i></a></li>
-      </ul>
-    </aside>
-
-    <!-- Contenido / Lado derecho -->
-    <div class="hero-content">
-      <span class="eyebrow">Perfil</span>
-      <h1 class="display-5 fw-bold lh-1">
-        Hola, soy <span class="grad-text">Aldair</span>
-      </h1>
-      <p class="lead text-muted-2 mb-3">Ingeniero en Sistemas</p>
-
-      <p class="hero-desc">
-        Desarrollador con foco en web y datos. Me gusta diseñar interfaces limpias,
-        automatizar procesos y llevar ideas a producción.
-      </p>
-
-      <div class="quick-facts">
-        <span class="pill"><i class="bi bi-cpu me-1"></i> Web & APIs</span>
-        <span class="pill"><i class="bi bi-diagram-3 me-1"></i> Arquitectura</span>
-        <span class="pill"><i class="bi bi-graph-up-arrow me-1"></i> BI / SQL</span>
-      </div>
-
-      <div class="cta">
-        <a href="#semanas" class="btn btn-accent btn-lg"><i class="bi bi-calendar-week me-2"></i>Ver Semanas</a>
-        <a href="#contacto" class="btn btn-outline-light btn-lg"><i class="bi bi-envelope-at me-2"></i>Contacto</a>
-      </div>
+  <!-- PERFIL -->
+  <section id="perfil" class="py-5 hero-section">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-12 col-md-5 d-flex justify-content-center">
+          <figure class="oval-frame shadow-lg">
+            <!-- Si existe en Supabase usa ese; si no, usa este local -->
+            <img src="aldair.jpg" class="img-fluid perfil-img" alt="Foto de Aldair">
+            <!-- Controles de foto (solo admin) -->
+<div class="mt-3" data-admin-only style="display:none;">
+  <div class="row g-2 align-items-center">
+    <div class="col-12 col-md-6">
+      <input type="file" accept="image/*" id="pfInput" class="form-control">
+    </div>
+    <div class="col-12 col-md-6 d-flex flex-wrap gap-2">
+      <button type="button" class="btn btn-primary" id="pfSaveBtn">
+        <i class="bi bi-cloud-arrow-up me-1"></i> Guardar como foto
+      </button>
+      <button type="button" class="btn btn-outline-light" id="pfPreviewBtn">
+        <i class="bi bi-eye me-1"></i> Previsualizar
+      </button>
+      <button type="button" class="btn btn-danger" id="pfDeleteBtn">
+        <i class="bi bi-trash me-1"></i> Borrar foto
+      </button>
+    </div>
+    <div class="col-12">
+      <small class="text-muted-2">Se guarda en <code>perfil/aldair.jpg</code> del bucket <code>portafolio</code>.</small>
     </div>
   </div>
+</div>
 
-  <!-- blobs decorativos -->
-  <span class="blob b1"></span>
-  <span class="blob b2"></span>
-</section>
+          </figure>
+        </div>
+        <div class="col-12 col-md-7">
+          <p class="text-accent mb-1 fw-semibold tracking">Perfil</p>
+          <h1 class="display-5 fw-bold lh-1 mb-2">Hola, soy <span class="text-gradient">Aldair</span></h1>
+          <p class="lead text-muted-2 mb-3">Soy <span class="fw-semibold">Ingeniero en Sistemas</span></p>
+        <p class="lead intro-text mb-4">
+  Bienvenido(a) a mi espacio profesional. Aquí comparto mis proyectos, habilidades y experiencias en el mundo del desarrollo de software y la innovación tecnológica. 
+  Mi objetivo es crear soluciones efectivas y aportar valor mediante la tecnología.
+</p>
+
+          <div class="d-flex flex-wrap gap-3">
+            <a href="#semanas" class="btn btn-accent btn-lg px-4"><i class="bi bi-calendar-week me-2"></i> Ver Semanas</a>
+            <a href="#contacto" class="btn btn-outline-light btn-lg px-4"><i class="bi bi-envelope-at me-2"></i>Contacto</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <!-- SEMANAS -->
   <section id="semanas" class="py-5 section-alt">
@@ -227,8 +230,6 @@
   <script src="app.js"></script>
 </body>
 </html>
-
-
 
 
 
