@@ -212,4 +212,82 @@ footer{ color: var(--muted-2); }
   color: var(--muted-2);
   font-size: .85rem;
 }
+/* =========================
+   FIX DE CONTRASTE (tema oscuro)
+   Pegar al final de styles.css
+   ========================= */
+
+/* Listas de archivos (week.html) */
+.list-group-item{
+  background: var(--panel, #0f172a) !important;
+  border-color: var(--border, #253046) !important;
+  color: #fff !important;
+  opacity: 1 !important;
+}
+.list-group-item a,
+.list-group-item .link-light{
+  color: #fff !important;
+  text-decoration: none;
+}
+.list-group-item a:hover{ text-decoration: underline; }
+.list-group-item .file-meta{
+  color: var(--muted-2, #9aa4bf) !important;
+}
+.file-thumb{
+  width: 44px; height: 44px; object-fit: cover; border-radius: 8px;
+  border: 1px solid var(--border, #253046);
+}
+
+/* Botones en items (abrir / borrar) */
+.btn-outline-light{
+  color:#fff !important;
+  border-color: rgba(255,255,255,.35) !important;
+}
+.btn-outline-light:hover{
+  background: rgba(255,255,255,.1) !important;
+}
+.btn-danger{ color:#fff !important; }
+
+/* Modal (login admin) – fondo y textos visibles */
+.modal-content{
+  background: var(--panel, #0f172a) !important;
+  color: #fff !important;
+  border: 1px solid var(--border, #253046) !important;
+  opacity: 1 !important;
+}
+.modal-header .modal-title,
+.modal-body,
+.modal-footer{ color:#fff !important; }
+
+/* Inputs dentro de modales / formularios */
+.form-control{
+  background: #0b1222 !important;
+  color:#fff !important;
+  border-color:#2b3551 !important;
+}
+.form-control::placeholder{ color:#9aa4bf !important; opacity: .9 !important; }
+
+/* Botón de cerrar (X) visible en oscuro */
+.btn-close{
+  filter: invert(1) grayscale(100%);
+  opacity: .9;
+}
+
+/* Panel de previsualización */
+.preview-pane{
+  background: var(--panel, #0f172a) !important;
+  border: 1px solid var(--border, #253046) !important;
+}
+.preview-title{ color:#fff !important; }
+.preview-empty{ color: var(--muted-2, #9aa4bf) !important; }
+
+/* Botón "Ver detalle" con tu color accent */
+.btn-accent{
+  background: var(--btn, linear-gradient(135deg,#ff6a6a,#ff8c6a)) !important;
+  color: var(--btnText, #101828) !important;
+  border: none !important;
+  box-shadow: var(--shadow, 0 6px 24px rgba(255,106,106,.25));
+}
+.btn-accent:hover{ filter: brightness(.93); }
+
 
