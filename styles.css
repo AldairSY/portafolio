@@ -290,4 +290,11 @@ footer{ color: var(--muted-2); }
 }
 .btn-accent:hover{ filter: brightness(.93); }
 
+/* Asegurar que la foto NUNCA esté translúcida ni oculta */
+.oval-frame img,
+.perfil-img {
+  display: block;
+  opacity: 1 !important;
+}
+
 
