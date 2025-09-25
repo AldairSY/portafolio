@@ -310,3 +310,20 @@ document.addEventListener("DOMContentLoaded", ()=>{
   const cf = document.getElementById("contactForm");
   if (cf) cf.addEventListener("submit", handleContactSubmit);
 });
+// Glow que sigue al mouse en cada .week-card
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.week-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = ((e.clientX - r.left) / r.width) * 100;
+      const y = ((e.clientY - r.top)  / r.height) * 100;
+      card.style.setProperty('--mx', x + '%');
+      card.style.setProperty('--my', y + '%');
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.removeProperty('--mx');
+      card.style.removeProperty('--my');
+    });
+  });
+});
+
