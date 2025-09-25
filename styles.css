@@ -513,3 +513,43 @@ footer{ color: var(--muted-2); }
   transform: translateY(-4px);
   box-shadow: 0 18px 40px rgba(0,0,0,.35);
 }
+
+/* Glow rojo interno para las weeks */
+.week-card{
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow .25s ease, border-color .25s ease, transform .25s ease;
+}
+
+.week-card::after{
+  content:"";
+  position:absolute; inset:-2px;
+  /* halo que nace donde está el mouse (—mx, —my) */
+  background:
+    radial-gradient(180px 130px at var(--mx,50%) var(--my,50%),
+      rgba(255,107,107,.22), rgba(255,107,107,0) 60%);
+  filter: blur(12px);
+  opacity:0;
+  transform: scale(.98);
+  transition: opacity .25s ease, transform .25s ease;
+  pointer-events:none;
+}
+
+.week-card:hover{
+  box-shadow:
+    0 14px 40px rgba(0,0,0,.35),
+    0 0 0 1px rgba(255,107,107,.35) inset;
+  border-color: rgba(255,107,107,.45);
+  transform: translateY(-2px);
+}
+
+.week-card:hover::after,
+.week-card:focus-within::after{
+  opacity:1;
+  transform: scale(1.02);
+}
+
+/* Accesibilidad: menos movimiento si el usuario lo prefiere */
+@media (prefers-reduced-motion: reduce){
+  .week-card, .week-card::after{ transition:none; }
+}
