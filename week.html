@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Semana | Detalle</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    :root{
+      --panel: #0f172a; --border:#253046; --muted:#93a3b8; --bg:#0b1222;
+      --accent:#ff6b6b;
+    }
+    /* ===== Encabezado ===== */
+    .wk-hero{
+      display:flex; gap:16px; align-items:flex-start; justify-content:space-between;
+      padding:18px 20px; border:1px solid var(--border); border-radius:18px;
+      background: radial-gradient(1200px 300px at 70% -80%, rgba(255,107,107,.12), transparent 70%) , var(--panel);
+    }
+    .breadcrumb-lite{ font-size:.9rem; color:var(--muted); margin-bottom:.25rem }
+    .breadcrumb-lite .sep{ opacity:.5; margin:0 .25rem }
+    .wk-title{ font-size:clamp(1.25rem,2.2vw,1.9rem); margin:0 }
+    .wk-desc{ color:var(--muted); margin:.35rem 0 0 }
+    .wk-state-badge{ align-self:center; font-size:.9rem; border:1px solid rgba(255,255,255,.2);
+      padding:.35rem .7rem; border-radius:999px; color:#ffb3b3; background:rgba(255,107,107,.12) }
+
+    /* ===== Toolbar ===== */
+    .toolbar{
+      background: var(--panel); border:1px solid var(--border); border-radius:14px;
+      padding:10px; display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between;
+    }
+    .toolbar .left, .toolbar .right{ display:flex; gap:10px; align-items:center; }
+
+    /* ===== Dropzone ===== */
+    .dz{
+      border:1.5px dashed rgba(255,255,255,.25); border-radius:16px; padding:16px;
+      background: rgba(255,255,255,.02); transition: border-color .15s ease, background .15s ease;
+    }
+    .dz.dragover{ border-color:var(--accent); background:rgba(255,107,107,.08); }
+    .dz .hint{ color:var(--muted); font-size:.92rem }
+
+    /* ===== Vista archivos ===== */
+    .cards{ display:grid; gap:10px; }
+    .as-grid .file-card{ display:block; }
+    .file-card{
+      background: var(--panel); border:1px solid var(--border); border-radius:14px; padding:12px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    .file-L{ display:flex; align-items:center; gap:12px; min-width:0 }
+    .thumb{
+      width:52px; height:52px; border-radius:12px; object-fit:cover; flex:0 0 52px;
+      border:1px solid rgba(255,255,255,.12); background:#0b1222; display:grid; place-items:center; font-size:1.2rem;
+    }
+    .fname{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:600 }
+    .meta{ color:var(--muted); font-size:.8rem }
+    .badge-ext{ border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.05); }
+    .actions .btn{ padding:.25rem .5rem }
+
+    /* Vista grid */
+    .as-grid .cards{ grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+    .as-grid .file-card{ padding:10px }
+    .as-grid .file-L{ display:block; text-align:center }
+    .as-grid .thumb{ margin:0 auto 8px auto; width:120px; height:120px; border-radius:14px; }
+
+    /* ===== Preview ===== */
+    .preview{
+      background: var(--panel); border:1px solid var(--border); border-radius:18px; overflow:hidden;
+    }
+    .pv-head{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      padding:10px 12px; border-bottom:1px solid var(--border); background: rgba(255,255,255,.02);
+    }
+    .pv-title{ font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+    .pv-body{ padding:0; min-height:300px; display:grid; place-items:center }
+    .preview-media{ max-width:100%; max-height:70vh; }
+    .preview-embed{ width:100%; height:70vh; border:0 }
+    .pv-tabs{ display:flex; gap:8px; padding:8px 12px; border-top:1px solid var(--border); background:rgba(255,255,255,.02) }
+    .pv-tab{ font-size:.9rem; color:var(--muted); cursor:pointer }
+    .pv-tab.active{ color:#fff }
+
+    /* ===== Varios ===== */
+    .empty{ padding:22px; text-align:center; color:var(--muted) }
+    .sk{ height:56px; border-radius:12px; background:linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.03), rgba(255,255,255,.06)); animation: sk 1.1s linear infinite; }
+    @keyframes sk{ 0%{background-position:-120px 0}100%{background-position:120px 0} }
+    [data-admin-only]{ display:none!important; } body.admin-on [data-admin-only]{ display:block!important; }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-dark glass-nav">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="index.html"><span class="brand-dot me-2"></span>Aldair</a>
+      <div class="d-flex align-items-center gap-3">
+        <a id="btnAdmin" class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#adminModal"><i class="bi bi-person-lock me-1"></i><span id="adminStateText">Administrador</span></a>
+        <a id="adminLogout" class="nav-link" href="#" data-admin-only style="display:none;"><i class="bi bi-box-arrow-right me-1"></i>Salir</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-4">
+    <!-- Encabezado -->
+    <div class="wk-hero mb-3">
+      <div>
+        <nav class="breadcrumb-lite" id="crumb">
+          <a id="backLink" href="index.html#semanas" class="link-light"><i class="bi bi-arrow-left-short"></i> Volver</a>
+          <span class="sep">/</span><span id="wk-bc">Semana N</span>
+        </nav>
+        <h1 class="wk-title" id="wk-title">Semana</h1>
+        <p id="wk-desc" class="wk-desc">Descripción…</p>
+      </div>
+      <span class="wk-state-badge" id="wk-state">Estado</span>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar mb-3">
+      <div class="left">
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-transparent border-secondary text-light"><i class="bi bi-search"></i></span>
+          <input id="q" type="search" class="form-control bg-transparent text-light border-secondary" placeholder="Buscar archivo...">
+        </div>
+        <select id="sort" class="form-select form-select-sm bg-transparent text-light border-secondary">
+          <option value="name">Ordenar: Nombre</option>
+          <option value="size">Ordenar: Tamaño</option>
+          <option value="date">Ordenar: Fecha</option>
+        </select>
+        <div class="btn-group btn-group-sm" role="group" aria-label="Vista">
+          <button class="btn btn-outline-light" id="vList" title="Vista lista"><i class="bi bi-list-task"></i></button>
+          <button class="btn btn-outline-light" id="vGrid" title="Vista cards"><i class="bi bi-grid"></i></button>
+        </div>
+      </div>
+      <div class="right" data-admin-only>
+        <button id="bulkDel" class="btn btn-sm btn-danger" disabled><i class="bi bi-trash me-1"></i>Eliminar selección</button>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <!-- IZQ -->
+      <div class="col-12 col-lg-6">
+        <!-- Dropzone -->
+        <div class="dz mb-3" id="dz" data-admin-only style="display:none;">
+          <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
+            <div>
+              <div class="fw-semibold">Subir archivos</div>
+              <div class="hint">Arrastra y suelta aquí o <a href="#" id="pick">selecciona</a> (carpeta <code id="wk-folder">semanas/N</code>)</div>
+            </div>
+            <input type="file" id="fileInput" class="d-none" multiple />
+            <button class="btn btn-primary" id="btnUpload"><i class="bi bi-cloud-arrow-up me-1"></i>Subir</button>
+          </div>
+          <div class="mt-2" id="upList"></div>
+        </div>
+
+        <!-- Archivos -->
+        <div id="cardsWrap" class="cards">
+          <div class="sk"></div><div class="sk"></div><div class="sk"></div>
+        </div>
+      </div>
+
+      <!-- DER: Previsualizador -->
+      <div class="col-12 col-lg-6">
+        <div class="preview">
+          <div class="pv-head">
+            <div class="pv-title" id="pv-title">Previsualización</div>
+            <div class="actions d-flex gap-2">
+              <a class="btn btn-sm btn-outline-light d-none" id="pv-open" target="_blank" rel="noopener" title="Abrir"><i class="bi bi-box-arrow-up-right"></i></a>
+              <a class="btn btn-sm btn-outline-light d-none" id="pv-download" download title="Descargar"><i class="bi bi-download"></i></a>
+              <button class="btn btn-sm btn-outline-light d-none" id="pv-rename" data-admin-only title="Renombrar"><i class="bi bi-pencil-square"></i></button>
+              <button class="btn btn-sm btn-danger d-none" id="pv-delete" data-admin-only title="Eliminar"><i class="bi bi-trash"></i></button>
+            </div>
+          </div>
+          <div id="pv-body" class="pv-body">
+            <div class="empty">Selecciona un archivo de la lista para ver aquí.</div>
+          </div>
+          <div class="pv-tabs">
+            <span class="pv-tab active" data-tab="view">Vista</span>
+            <span class="pv-tab" data-tab="info">Info</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Toasts -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index:1080">
+    <div id="toast" class="toast align-items-center text-bg-dark border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex"><div class="toast-body" id="toastBody">Listo</div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div>
+    </div>
+  </div>
+
+  <!-- Modal Login -->
+  <div class="modal fade" id="adminModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content" id="adminForm">
+        <div class="modal-header"><h5 class="modal-title"><i class="bi bi-person-lock me-2"></i>Entrar como Administrador</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+        <div class="modal-body">
+          <div class="mb-3"><label class="form-label">Email</label><input type="email" class="form-control" id="adminUser" required></div>
+          <div class="mb-3"><label class="form-label">Contraseña</label><input type="password" class="form-control" id="adminPass" required></div>
+        </div>
+        <div class="modal-footer"><button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancelar</button><button type="submit" class="btn btn-primary">Entrar</button></div>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+  /* ====== Supabase ====== */
+  const SUPABASE_URL = "https://feiygnfxolxetwfrjfsh.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlaXlnbmZ4b2x4ZXR3ZnJqZnNoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcxOTU1MjAsImV4cCI6MjA3Mjc3MTUyMH0.ge5Ciw_9MvIGR4y8JznteQV8sICcCBzivEapGxWnFbI";
+  const BUCKET = "portafolio";
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  /* ====== Data semana ====== */
+  const DEFAULT_WEEKS = [
+    { n:1,title:"Introducción y alcance",state:"Planificado",text:"Objetivos del curso, metodología, herramientas y repositorios." },
+    { n:2,title:"Levantamiento de requerimientos",state:"Planificado",text:"Entrevistas, historias de usuario, criterios de aceptación." },
+    { n:3,title:"Modelado de procesos (BPMN)",state:"Planificado",text:"Diagramas AS-IS / TO-BE y priorización de mejoras." },
+    { n:4,title:"Arquitectura (C4 + vistas)",state:"Planificado",text:"Contexto, contenedores y componentes. Decisiones ADR." },
+    { n:5,title:"Diseño de datos (MER → SQL)",state:"Planificado",text:"Entidades, relaciones y normalización. Script base." },
+    { n:6,title:"Front-end base",state:"Planificado",text:"Componentes Bootstrap y patrones de UI accesibles." },
+    { n:7,title:"Back-end base",state:"Planificado",text:"APIs REST, controladores y validaciones." },
+    { n:8,title:"Autenticación",state:"Parcial",text:"Sesiones, JWT / Supabase Auth y roles." },
+    { n:9,title:"Integración de datos",state:"Parcial",text:"Persistencia, migraciones y seeds." },
+    { n:10,title:"Pruebas",state:"Parcial",text:"Unitarias, integración y cobertura mínima." },
+    { n:11,title:"Seguridad",state:"Parcial",text:"OWASP Top 10, roles y permisos." },
+    { n:12,title:"DevOps",state:"Parcial",text:"CI/CD, contenedores y despliegue." },
+    { n:13,title:"BI & Dashboards",state:"Parcial",text:"Métricas, KPIs y visualizaciones." },
+    { n:14,title:"Ajustes finales",state:"Parcial",text:"Refactor, performance, accesibilidad." },
+    { n:15,title:"Ensayo de sustentación",state:"Revisión",text:"Diapositivas, demos y Q&A." },
+    { n:16,title:"Entrega final",state:"Final",text:"Producto terminado, documentación y retroalimentación." },
+  ];
+
+  /* ====== Helpers ====== */
+  const qs = (s,c=document)=>c.querySelector(s);
+  const qsAll = (s,c=document)=>Array.from(c.querySelectorAll(s));
+
+  // Lee parámetros (?course=...&week=N)
+  const params = new URLSearchParams(location.search);
+  const COURSE = params.get("course");                // ej. "arquitectura"
+  const N = Number(params.get("week") || "0");
+  const W = DEFAULT_WEEKS.find(x=>x.n===N) || { n:N,title:`Semana ${N}`,state:"-",text:"" };
+
+  // Carpeta de trabajo (con soporte de cursos)
+  const folder = COURSE ? `cursos/${COURSE}/semanas/${W.n}` : `semanas/${W.n}`;
+
+  function toast(msg){ qs("#toastBody").textContent = msg; new bootstrap.Toast(qs("#toast")).show(); }
+  function setAdmin(on, label="Admin"){
+    const els = document.querySelectorAll("[data-admin-only]");
+    if (on){ document.body.classList.add("admin-on"); qs("#adminStateText").textContent=label; els.forEach(e=>e.style.display=""); }
+    else   { document.body.classList.remove("admin-on"); qs("#adminStateText").textContent="Administrador"; els.forEach(e=>e.style.display="none"); }
+  }
+
+  const ext = n => (n.split(".").pop()||"").toLowerCase();
+  const isImg = e => ["jpg","jpeg","png","gif","webp","bmp","avif"].includes(e);
+  const isPdf = e => e==="pdf";
+  const isVideo = e => ["mp4","webm","ogv"].includes(e);
+  const isAudio = e => ["mp3","ogg","wav","m4a"].includes(e);
+  const fmtBytes = n => { if(!n) return "0 B"; const u=["KB","MB","GB","TB"]; let i=-1; do{ n/=1024; i++; }while(n>=1024 && i<u.length-1); return (n<10? n.toFixed(1): Math.round(n))+" "+u[i]; };
+
+  /* ====== Header render ====== */
+  // Breadcrumb + back link mantienen el curso
+  const back = qs("#backLink");
+  if (back) back.href = COURSE ? `index.html?course=${encodeURIComponent(COURSE)}#semanas` : "index.html#semanas";
+
+  // Muestra nombre del curso como tag adicional
+  if (COURSE){
+    const bc = qs("#crumb");
+    if (bc){
+      const sep = document.createElement("span");
+      sep.className = "sep"; sep.textContent = "/";
+      const tag = document.createElement("span");
+      tag.textContent = COURSE;
+      bc.appendChild(sep); bc.appendChild(tag);
+    }
+  }
+
+  qs("#wk-bc").textContent = `Semana ${W.n}`;
+  qs("#wk-title").textContent = `Semana ${W.n} — ${W.title}`;
+  qs("#wk-state").textContent = `Estado: ${W.state}`;
+  qs("#wk-desc").textContent  = W.text || "Sin descripción.";
+  qs("#wk-folder").textContent = folder;
+
+  /* ====== Obtener URL (pública o firmada) ====== */
+  async function getUrl(path){
+    const pub = sb.storage.from(BUCKET).getPublicUrl(path).data?.publicUrl;
+    if (pub) return pub;
+    const s = await sb.storage.from(BUCKET).createSignedUrl(path, 3600);
+    return s.data?.signedUrl || "";
+  }
+
+  /* ====== Estado global archivos ====== */
+  let filesState = []; // {name, size, updated_at, url, path, ext}
+  let viewGrid = false;
+
+  function applyFilters(){
+    const q = qs("#q").value.trim().toLowerCase();
+    const sort = qs("#sort").value;
+    let arr = [...filesState];
+    if (q) arr = arr.filter(f => f.name.toLowerCase().includes(q));
+    if (sort==="name") arr.sort((a,b)=>a.name.localeCompare(b.name));
+    if (sort==="size") arr.sort((a,b)=> (a.size||0) - (b.size||0));
+    if (sort==="date") arr.sort((a,b)=> new Date(a.updated_at||0) - new Date(b.updated_at||0));
+    renderList(arr);
+  }
+
+  function badge(extn){
+    const map = { pdf:"danger", jpg:"warning", jpeg:"warning", png:"warning", gif:"warning", webp:"warning", bmp:"warning",
+                  mp4:"info", webm:"info", ogv:"info", mp3:"success", ogg:"success", wav:"success", m4a:"success" };
+    const cls = map[extn] || "secondary";
+    return `<span class="badge badge-ext text-bg-${cls} text-uppercase">${extn}</span>`;
+  }
+
+  function renderList(list){
+    const wrap = qs("#cardsWrap");
+    wrap.classList.toggle("as-grid", viewGrid);
+    if (!list.length){ wrap.innerHTML = `<div class="empty">Sin archivos en esta semana.</div>`; return; }
+    const isAdm = document.body.classList.contains("admin-on");
+    wrap.innerHTML = list.map(f=>{
+      const icon = isImg(f.ext) ? `<img class="thumb" src="${f.url}" alt="">` : `<div class="thumb"><i class="bi bi-file-earmark"></i></div>`;
+      return `
+        <div class="file-card">
+          <div class="file-L">
+            <input type="checkbox" class="form-check-input me-2 file-ck" data-path="${encodeURIComponent(f.path)}" data-name="${encodeURIComponent(f.name)}" ${isAdm? "" : "hidden"}>
+            ${icon}
+            <div class="min-w-0">
+              <a href="#" class="link-light fname file-open" data-url="${encodeURIComponent(f.url)}" data-name="${encodeURIComponent(f.name)}" data-path="${encodeURIComponent(f.path)}">${f.name}</a>
+              <div class="meta">${fmtBytes(f.size||0)} · ${new Date(f.updated_at||Date.now()).toLocaleDateString()} · ${badge(f.ext)}</div>
+            </div>
+          </div>
+          <div class="actions">
+            <a class="btn btn-sm btn-outline-light me-1" href="${f.url}" target="_blank" rel="noopener" title="Abrir"><i class="bi bi-box-arrow-up-right"></i></a>
+            ${isAdm ? `
+              <button class="btn btn-sm btn-outline-light me-1 act-rename" data-path="${encodeURIComponent(f.path)}" data-name="${encodeURIComponent(f.name)}" title="Renombrar"><i class="bi bi-pencil-square"></i></button>
+              <button class="btn btn-sm btn-danger act-del" data-path="${encodeURIComponent(f.path)}" title="Eliminar"><i class="bi bi-trash"></i></button>` : ``}
+          </div>
+        </div>`;
+    }).join("");
+
+    // Handlers
+    wrap.querySelectorAll(".file-open").forEach(a=>{
+      a.addEventListener("click", ev=>{
+        ev.preventDefault();
+        const url = decodeURIComponent(a.getAttribute("data-url"));
+        const name = decodeURIComponent(a.getAttribute("data-name"));
+        const path = decodeURIComponent(a.getAttribute("data-path"));
+        setPreview(name, url, path);
+      });
+    });
+
+    if (isAdm){
+      wrap.querySelectorAll(".act-del").forEach(b=>{
+        b.addEventListener("click", ()=> delOne(decodeURIComponent(b.dataset.path)));
+      });
+      wrap.querySelectorAll(".act-rename").forEach(b=>{
+        b.addEventListener("click", ()=> renameOne(decodeURIComponent(b.dataset.path), decodeURIComponent(b.dataset.name)));
+      });
+      // bulk
+      wrap.querySelectorAll(".file-ck").forEach(ck=>{
+        ck.addEventListener("change", ()=>{
+          const any = wrap.querySelector(".file-ck:checked");
+          qs("#bulkDel").disabled = !any;
+        });
+      });
+    }
+  }
+
+  /* ====== Preview ====== */
+  function setPreview(name, url, fullPath){
+    qs("#pv-title").textContent = name;
+    const open = qs("#pv-open"), dl = qs("#pv-download"), del = qs("#pv-delete"), rn = qs("#pv-rename");
+    [open, dl, del, rn].forEach(x=>x.classList.remove("d-none"));
+    open.href = url; dl.href = url; dl.setAttribute("download", name);
+    del.dataset.path = fullPath || ""; rn.dataset.path = fullPath || ""; rn.dataset.name = name;
+
+    const box = qs("#pv-body"); const e = ext(name);
+    if (qs(".pv-tab.active")?.dataset.tab !== "view"){
+      qsAll(".pv-tab").forEach(t=>t.classList.remove("active")); qs('.pv-tab[data-tab="view"]').classList.add("active");
+    }
+    if (isImg(e))      box.innerHTML = `<img class="preview-media" src="${url}" alt="${name}">`;
+    else if (isPdf(e)) box.innerHTML = `<iframe class="preview-embed" src="${url}#view=FitH"></iframe>`;
+    else if (isVideo(e)) box.innerHTML = `<video class="preview-media" src="${url}" controls></video>`;
+    else if (isAudio(e)) box.innerHTML = `<audio class="preview-media" src="${url}" controls></audio>`;
+    else box.innerHTML = `<div class="empty">No se puede previsualizar. <a href="${url}" target="_blank" rel="noopener">Abrir/descargar</a></div>`;
+
+    // Info tab content
+    const it = document.createElement("div");
+    it.className="p-3"; it.innerHTML = `<div class="text-muted">Path: <code>${fullPath}</code></div>`;
+    qs("#pv-body").dataset.infoHtml = it.innerHTML;
+  }
+  qsAll(".pv-tab").forEach(t=>{
+    t.addEventListener("click", ()=>{
+      qsAll(".pv-tab").forEach(x=>x.classList.remove("active")); t.classList.add("active");
+      if (t.dataset.tab==="info"){
+        qs("#pv-body").innerHTML = `<div class="p-3">${qs("#pv-body").dataset.infoHtml || "Sin info"}</div>`;
+      }
+    });
+  });
+
+  // Eliminar desde preview
+  qs("#pv-delete")?.addEventListener("click", async ()=>{
+    const path = qs("#pv-delete").dataset.path; if (!path) return;
+    if (!confirm("¿Eliminar este archivo?")) return;
+    const { error } = await sb.storage.from(BUCKET).remove([path]);
+    if (error) return toast("Error: "+error.message);
+    toast("Archivo eliminado.");
+    await listFiles();
+    qs("#pv-title").textContent="Previsualización";
+    qs("#pv-body").innerHTML = `<div class="empty">Selecciona un archivo de la lista para ver aquí.</div>`;
+    ["#pv-open","#pv-download","#pv-delete","#pv-rename"].forEach(sel=>qs(sel).classList.add("d-none"));
+  });
+
+  // Renombrar desde preview
+  qs("#pv-rename")?.addEventListener("click", async ()=>{
+    const oldPath = qs("#pv-rename").dataset.path;
+    const oldName = qs("#pv-rename").dataset.name;
+    if (!oldPath) return;
+    const nn = prompt("Nuevo nombre (con extensión):", oldName);
+    if (!nn || nn===oldName) return;
+    const newPath = `${folder}/${nn}`;
+    const { error } = await sb.storage.from(BUCKET).move(oldPath, newPath);
+    if (error) return toast("No se pudo renombrar: "+error.message);
+    toast("Renombrado.");
+    await listFiles();
+  });
+
+  /* ====== Listar ====== */
+  async function listFiles(){
+    const wrap = qs("#cardsWrap");
+    wrap.innerHTML = `<div class="sk"></div><div class="sk"></div><div class="sk"></div>`;
+    const { data:files, error } = await sb.storage.from(BUCKET).list(folder, { limit:300, sortBy:{column:"name",order:"asc"} });
+    if (error){ wrap.innerHTML = `<div class="empty text-danger">Error: ${error.message}</div>`; return; }
+    if (!files || !files.length){ wrap.innerHTML = `<div class="empty">Sin archivos en esta semana.</div>`; filesState=[]; return; }
+
+    const withUrls = await Promise.all(files.map(async f=>{
+      const path = `${folder}/${f.name}`;
+      const url = await getUrl(path);
+      return { name:f.name, size:f.metadata?.size||0, updated_at:f.updated_at||f.created_at, url, path, ext:ext(f.name) };
+    }));
+    filesState = withUrls;
+    applyFilters();
+  }
+
+  /* ====== Subida: input y drag&drop con “progreso” simple ====== */
+  const fileInput = qs("#fileInput"), dz = qs("#dz"), pick = qs("#pick"), btnUpload = qs("#btnUpload"), upList = qs("#upList");
+  let pendingFiles = [];
+
+  function renderQueue(){
+    if (!pendingFiles.length){ upList.innerHTML=""; return; }
+    upList.innerHTML = pendingFiles.map((f,i)=>`
+      <div class="d-flex align-items-center justify-content-between small mb-1">
+        <div class="text-truncate" style="max-width:70%">${f.name}</div>
+        <div class="text-muted">${fmtBytes(f.size)}</div>
+      </div>
+      <div class="progress mb-2" style="height:6px;"><div class="progress-bar" id="pb-${i}" role="progressbar" style="width: 0%"></div></div>
+    `).join("");
+  }
+
+  pick?.addEventListener("click", e=>{ e.preventDefault(); fileInput.click(); });
+  fileInput?.addEventListener("change", e=>{
+    pendingFiles = Array.from(e.target.files||[]);
+    renderQueue();
+  });
+  ["dragenter","dragover"].forEach(ev=> dz?.addEventListener(ev, e=>{ e.preventDefault(); e.stopPropagation(); dz.classList.add("dragover"); }));
+  ["dragleave","drop"].forEach(ev=> dz?.addEventListener(ev, e=>{ e.preventDefault(); e.stopPropagation(); dz.classList.remove("dragover"); }));
+  dz?.addEventListener("drop", e=>{
+    pendingFiles = Array.from(e.dataTransfer.files||[]);
+    renderQueue();
+  });
+
+  async function uploadQueue(){
+    if (!pendingFiles.length) return toast("No hay archivos seleccionados.");
+    btnUpload.disabled = true; btnUpload.innerHTML = `<span class="spinner-border spinner-border-sm me-1"></span>Subiendo...`;
+    try{
+      for (let i=0;i<pendingFiles.length;i++){
+        const f = pendingFiles[i];
+        const path = `${folder}/${f.name}`;
+        const { error } = await sb.storage.from(BUCKET).upload(path, f, { upsert:true, cacheControl:"3600", contentType:f.type||undefined });
+        if (error) { toast(`No se pudo subir ${f.name}: ${error.message}`); continue; }
+        const bar = qs(`#pb-${i}`); if (bar){ bar.style.width = "100%"; }
+      }
+      toast("✅ Subida completa.");
+      pendingFiles = []; fileInput.value = ""; upList.innerHTML="";
+      await listFiles();
+    }catch(err){ console.error(err); toast("Error: "+err.message); }
+    finally{ btnUpload.disabled = false; btnUpload.innerHTML = `<i class="bi bi-cloud-arrow-up me-1"></i>Subir`; }
+  }
+  btnUpload?.addEventListener("click", uploadQueue);
+
+  /* ====== Bulk delete ====== */
+  qs("#bulkDel")?.addEventListener("click", async ()=>{
+    const cks = qsAll(".file-ck:checked");
+    if (!cks.length) return;
+    if (!confirm(`¿Eliminar ${cks.length} archivo(s)?`)) return;
+    const paths = cks.map(c=> decodeURIComponent(c.dataset.path));
+    const { error } = await sb.storage.from(BUCKET).remove(paths);
+    if (error) return toast("Error: "+error.message);
+    toast("Eliminados.");
+    await listFiles();
+    qs("#bulkDel").disabled = true;
+  });
+
+  async function delOne(path){
+    if (!confirm("¿Eliminar archivo?")) return;
+    const { error } = await sb.storage.from(BUCKET).remove([path]);
+    if (error) return toast("Error: "+error.message);
+    toast("Eliminado.");
+    await listFiles();
+  }
+  async function renameOne(oldPath, oldName){
+    const nn = prompt("Nuevo nombre (con extensión):", oldName);
+    if (!nn || nn===oldName) return;
+    const newPath = `${folder}/${nn}`;
+    const { error } = await sb.storage.from(BUCKET).move(oldPath, newPath);
+    if (error) return toast("No se pudo renombrar: "+error.message);
+    toast("Renombrado.");
+    await listFiles();
+  }
+
+  /* ====== Auth ====== */
+  async function refreshSession(){
+    const { data:{ session } } = await sb.auth.getSession();
+    setAdmin(!!session, session?.user?.email || "Admin");
+  }
+  sb.auth.onAuthStateChange((_e,s)=> setAdmin(!!s, s?.user?.email || "Admin"));
+  qs("#adminForm")?.addEventListener("submit", async (e)=>{
+    e.preventDefault();
+    const email = qs("#adminUser").value.trim();
+    const password = qs("#adminPass").value;
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+    if (error) toast("Error: "+error.message);
+    else (bootstrap.Modal.getInstance(qs("#adminModal"))||new bootstrap.Modal(qs("#adminModal"))).hide();
+  });
+  qs("#adminLogout")?.addEventListener("click", async (e)=>{ e.preventDefault(); await sb.auth.signOut(); setAdmin(false); });
+
+  /* ====== Controles UI ====== */
+  qs("#q").addEventListener("input", applyFilters);
+  qs("#sort").addEventListener("change", applyFilters);
+  qs("#vList").addEventListener("click", ()=>{ viewGrid=false; applyFilters(); });
+  qs("#vGrid").addEventListener("click", ()=>{ viewGrid=true; applyFilters(); });
+
+  // init
+  (async ()=>{ await refreshSession(); await listFiles(); })();
+  </script>
+</body>
+</html>
